@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.exception.catcher;
+package demo.spring.boot.demospringboot.framework.exception.catcher;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
