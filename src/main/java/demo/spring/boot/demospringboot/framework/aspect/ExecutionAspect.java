@@ -1,19 +1,12 @@
 package demo.spring.boot.demospringboot.framework.aspect;
 
+import demo.spring.boot.demospringboot.controller.AspectController;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import demo.spring.boot.demospringboot.framework.Code;
-import demo.spring.boot.demospringboot.framework.Response;
 
 /**
  * 2018/8/9    Created by   chao
@@ -31,7 +24,6 @@ public class ExecutionAspect {
     }
 
     /**
-     *
      * ProceedingJoinPoint 继承的 JoinPoint 比JoinPoint ， 只多了执行的proceed Around </>一旦执行了这个方法，如果不调用proceed
      * ， 就会导致调用终止 注意：当核心业务抛异常后，立即退出，转向AfterAdvice 执行完AfterAdvice，再转到ThrowingAdvice
      */
@@ -45,19 +37,14 @@ public class ExecutionAspect {
         logger.info("第一步【执行Around：拦截连接点方法所在类文件中的位置】joinPoint.getSourceLocation() - > {}", joinPoint.getSourceLocation());//org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@6742526e
         logger.info("第一步【执行Around：拦截AOP的当前执行对象】joinPoint.getThis() - > {}", joinPoint.getThis());//demo.spring.boot.demospringboot.controller.FrameworkController@25c6ab3
 
-        try {
-            Object result = joinPoint.proceed(); //继续下一个方法的调用 ：就是调用拦截的函数，得到拦截函数执行的结果
-            return result;
-        }catch (Exception e){
-            e.printStackTrace();
-            Response response = new Response();
-            response.setCode(Code.System.FAIL);
-            response.setMsg(e.getMessage());
-            response.addException(e);
-            //这里的return的必须和拦截的方法的返回值一样
-            return response;
-        }
+        ((AspectController)joinPoint.getTarget()).BeforeAspectMethod();
+        Object result = joinPoint.proceed(); //继续下一个方法的调用 ：就是调用拦截的函数，得到拦截函数执行的结果
+        ((AspectController)joinPoint.getTarget()).AfterAspectMethod();
+        return result;
+        //这里的return的必须和拦截的方法的返回值一样
     }
+
+
 
     /**
      * Before
@@ -90,7 +77,7 @@ public class ExecutionAspect {
 
     /**
      * 正常return执行
-     *
+     * <p>
      * 在执行代码return之后执行，没有发生异常，执行
      */
     @AfterReturning(value = "doLogger()", returning = "retVal")
@@ -111,7 +98,6 @@ public class ExecutionAspect {
 
     /**
      * 异常后执行，处理错误信息
-     *
      */
     @AfterThrowing(value = "doLogger()", throwing = "ex")
     public void afterThrowingAdvice(JoinPoint joinPoint, Exception ex) {
