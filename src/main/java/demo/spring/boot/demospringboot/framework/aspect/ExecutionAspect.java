@@ -20,14 +20,14 @@ public class ExecutionAspect {
      * 定义切面执行的方法
      */
     @Pointcut("execution(* demo.spring.boot.demospringboot.controller.*AspectController.*(..))")
-    private void doLogger() {
+    private void pointCut() {
     }
 
     /**
      * ProceedingJoinPoint 继承的 JoinPoint 比JoinPoint ， 只多了执行的proceed Around </>一旦执行了这个方法，如果不调用proceed
      * ， 就会导致调用终止 注意：当核心业务抛异常后，立即退出，转向AfterAdvice 执行完AfterAdvice，再转到ThrowingAdvice
      */
-    @Around(value = "doLogger()")
+    @Around(value = "pointCut()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("第一步【执行Around：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());//Response demo.spring.boot.demospringboot.controller.FrameworkController.framework(String,String)
         logger.info("第一步【执行Around：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());//demo.spring.boot.demospringboot.controller.FrameworkController@25c6ab3f
@@ -49,7 +49,7 @@ public class ExecutionAspect {
     /**
      * Before
      */
-    @Before("doLogger()")
+    @Before("pointCut()")
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.info("第二步【执行Before：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第二步【执行Before：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -64,7 +64,7 @@ public class ExecutionAspect {
     /**
      * After 核心业务逻辑退出后（包括正常执行结束和异常退出），执行此Advice
      */
-    @After(value = "doLogger()")
+    @After(value = "pointCut()")
     public void afterAdvice(JoinPoint joinPoint) {
         logger.info("第三步【执行After：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步【执行After：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -80,7 +80,7 @@ public class ExecutionAspect {
      * <p>
      * 在执行代码return之后执行，没有发生异常，执行
      */
-    @AfterReturning(value = "doLogger()", returning = "retVal")
+    @AfterReturning(value = "pointCut()", returning = "retVal")
     public void afterReturningAdvice(JoinPoint joinPoint, Object retVal) {
         logger.info("第三步后-正常执行【正常return后AfterReturning：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步后-正常执行【正常return后AfterReturning：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -99,7 +99,7 @@ public class ExecutionAspect {
     /**
      * 异常后执行，处理错误信息
      */
-    @AfterThrowing(value = "doLogger()", throwing = "ex")
+    @AfterThrowing(value = "pointCut()", throwing = "ex")
     public void afterThrowingAdvice(JoinPoint joinPoint, Exception ex) {
         logger.info("第三步后-异常执行【异常return后AfterThrowing：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步后-异常执行【异常return后AfterThrowing：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());

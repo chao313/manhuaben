@@ -1,24 +1,21 @@
 package demo.spring.boot.demospringboot.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import demo.spring.boot.demospringboot.framework.Code;
+import demo.spring.boot.demospringboot.framework.Response;
+import demo.spring.boot.demospringboot.framework.annotations.CustomAnnotation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.spring.boot.demospringboot.framework.Code;
-import demo.spring.boot.demospringboot.framework.Response;
-
-/**
- * execution的切面
- * 2018/10/18    Created by   chao
- */
 @RestController
-@RequestMapping("/executionAspect")
-public class ExecutionAspectController implements AspectController {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+@RequestMapping("/annotationsAspect")
+public class AnnotationsController {
 
+    /**
+     * annotationsAspect
+     */
+    @CustomAnnotation(value = "哈哈", required = true)
     @GetMapping("/aspect")
     public Response framework(@RequestParam(value = "one") Integer one,
                               @RequestParam(value = "two") Integer two) {
@@ -29,13 +26,4 @@ public class ExecutionAspectController implements AspectController {
         return response;
     }
 
-    @Override
-    public void BeforeAspectMethod() {
-        logger.info("【切面调用：】函数之前");
-    }
-
-    @Override
-    public void AfterAspectMethod() {
-        logger.info("【切面调用：】函数之后");
-    }
 }
