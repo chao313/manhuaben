@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.controller;
+package demo.spring.boot.demospringboot.controller.aspect;
 
 /**
  * 继承这个接口的class，在切面aop方法执行前后，调用此接口的方法

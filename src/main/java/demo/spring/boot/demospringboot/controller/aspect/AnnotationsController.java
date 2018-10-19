@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.controller;
+package demo.spring.boot.demospringboot.controller.aspect;
 
 import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;

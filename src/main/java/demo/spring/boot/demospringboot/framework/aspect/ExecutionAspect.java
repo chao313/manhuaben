@@ -1,6 +1,6 @@
 package demo.spring.boot.demospringboot.framework.aspect;
 
-import demo.spring.boot.demospringboot.controller.AspectController;
+import demo.spring.boot.demospringboot.controller.aspect.AspectController;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -19,7 +19,7 @@ public class ExecutionAspect {
     /**
      * 定义切面执行的方法
      */
-    @Pointcut("execution(* demo.spring.boot.demospringboot.controller.*AspectController.*(..))")
+    @Pointcut("execution(* demo.spring.boot.demospringboot.controller.aspect.AspectController.*(..))")
     private void pointCut() {
     }
 
