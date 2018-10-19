@@ -1,5 +1,6 @@
 package demo.spring.boot.demospringboot.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import demo.spring.boot.demospringboot.framework.Response;
 public class ExecutionAspectController implements AspectController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @ApiOperation(value = "测试execution表达式的拦截", notes = "测试execution表达式的拦截")
     @GetMapping("/aspect")
     public Response framework(@RequestParam(value = "one") Integer one,
                               @RequestParam(value = "two") Integer two) {

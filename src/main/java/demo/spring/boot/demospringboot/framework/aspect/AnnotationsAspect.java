@@ -31,7 +31,7 @@ public class AnnotationsAspect {
     /**
      * Before
      */
-    @Before("pointCut()")
+    @Before(value = "pointCut()")
     public void beforeAdvice(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();

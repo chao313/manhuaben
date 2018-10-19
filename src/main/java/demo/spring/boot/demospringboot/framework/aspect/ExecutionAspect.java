@@ -49,7 +49,7 @@ public class ExecutionAspect {
     /**
      * Before
      */
-    @Before("pointCut()")
+    @Before(value = "pointCut()")
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.info("第二步【执行Before：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第二步【执行Before：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
