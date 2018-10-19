@@ -1,5 +1,6 @@
 package demo.spring.boot.demospringboot.framework.aspect;
 
+<<<<<<< HEAD
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -8,13 +9,22 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+=======
+import demo.spring.boot.demospringboot.controller.AspectController;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 
+=======
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
 /**
  * 2018/8/9    Created by   chao
  */
@@ -27,6 +37,7 @@ public class ExecutionAspect {
      * 定义切面执行的方法
      */
     @Pointcut("execution(* demo.spring.boot.demospringboot.controller.*AspectController.*(..))")
+<<<<<<< HEAD
     private void doLogger() {
     }
 
@@ -36,6 +47,16 @@ public class ExecutionAspect {
      * ， 就会导致调用终止 注意：当核心业务抛异常后，立即退出，转向AfterAdvice 执行完AfterAdvice，再转到ThrowingAdvice
      */
     @Around(value = "doLogger()")
+=======
+    private void pointCut() {
+    }
+
+    /**
+     * ProceedingJoinPoint 继承的 JoinPoint 比JoinPoint ， 只多了执行的proceed Around </>一旦执行了这个方法，如果不调用proceed
+     * ， 就会导致调用终止 注意：当核心业务抛异常后，立即退出，转向AfterAdvice 执行完AfterAdvice，再转到ThrowingAdvice
+     */
+    @Around(value = "pointCut()")
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("第一步【执行Around：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());//Response demo.spring.boot.demospringboot.controller.FrameworkController.framework(String,String)
         logger.info("第一步【执行Around：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());//demo.spring.boot.demospringboot.controller.FrameworkController@25c6ab3f
@@ -45,6 +66,7 @@ public class ExecutionAspect {
         logger.info("第一步【执行Around：拦截连接点方法所在类文件中的位置】joinPoint.getSourceLocation() - > {}", joinPoint.getSourceLocation());//org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@6742526e
         logger.info("第一步【执行Around：拦截AOP的当前执行对象】joinPoint.getThis() - > {}", joinPoint.getThis());//demo.spring.boot.demospringboot.controller.FrameworkController@25c6ab3
 
+<<<<<<< HEAD
         try {
             Object result = joinPoint.proceed(); //继续下一个方法的调用 ：就是调用拦截的函数，得到拦截函数执行的结果
             return result;
@@ -63,6 +85,21 @@ public class ExecutionAspect {
      * Before
      */
     @Before("doLogger()")
+=======
+        ((AspectController)joinPoint.getTarget()).BeforeAspectMethod();
+        Object result = joinPoint.proceed(); //继续下一个方法的调用 ：就是调用拦截的函数，得到拦截函数执行的结果
+        ((AspectController)joinPoint.getTarget()).AfterAspectMethod();
+        return result;
+        //这里的return的必须和拦截的方法的返回值一样
+    }
+
+
+
+    /**
+     * Before
+     */
+    @Before("pointCut()")
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.info("第二步【执行Before：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第二步【执行Before：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -77,7 +114,11 @@ public class ExecutionAspect {
     /**
      * After 核心业务逻辑退出后（包括正常执行结束和异常退出），执行此Advice
      */
+<<<<<<< HEAD
     @After(value = "doLogger()")
+=======
+    @After(value = "pointCut()")
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     public void afterAdvice(JoinPoint joinPoint) {
         logger.info("第三步【执行After：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步【执行After：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -90,10 +131,17 @@ public class ExecutionAspect {
 
     /**
      * 正常return执行
+<<<<<<< HEAD
      *
      * 在执行代码return之后执行，没有发生异常，执行
      */
     @AfterReturning(value = "doLogger()", returning = "retVal")
+=======
+     * <p>
+     * 在执行代码return之后执行，没有发生异常，执行
+     */
+    @AfterReturning(value = "pointCut()", returning = "retVal")
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     public void afterReturningAdvice(JoinPoint joinPoint, Object retVal) {
         logger.info("第三步后-正常执行【正常return后AfterReturning：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步后-正常执行【正常return后AfterReturning：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());
@@ -111,9 +159,14 @@ public class ExecutionAspect {
 
     /**
      * 异常后执行，处理错误信息
+<<<<<<< HEAD
      *
      */
     @AfterThrowing(value = "doLogger()", throwing = "ex")
+=======
+     */
+    @AfterThrowing(value = "pointCut()", throwing = "ex")
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     public void afterThrowingAdvice(JoinPoint joinPoint, Exception ex) {
         logger.info("第三步后-异常执行【异常return后AfterThrowing：拦截方法的签名】joinPoint.getSignature() - > {}", joinPoint.getSignature());
         logger.info("第三步后-异常执行【异常return后AfterThrowing：拦截目标的对象】joinPoint.getTarget() - > {}", joinPoint.getTarget());

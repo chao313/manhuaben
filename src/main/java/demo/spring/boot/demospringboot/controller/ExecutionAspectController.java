@@ -11,16 +11,26 @@ import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 
 /**
+<<<<<<< HEAD
+=======
+ * execution的切面
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
  * 2018/10/18    Created by   chao
  */
 @RestController
 @RequestMapping("/executionAspect")
+<<<<<<< HEAD
 public class ExecutionAspectController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 所有的异常处理在ExecutionAspect切面中执行
      */
+=======
+public class ExecutionAspectController implements AspectController {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
     @GetMapping("/aspect")
     public Response framework(@RequestParam(value = "one") Integer one,
                               @RequestParam(value = "two") Integer two) {
@@ -30,4 +40,17 @@ public class ExecutionAspectController {
         response.setContent(one / two);
         return response;
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public void BeforeAspectMethod() {
+        logger.info("【切面调用：】函数之前");
+    }
+
+    @Override
+    public void AfterAspectMethod() {
+        logger.info("【切面调用：】函数之后");
+    }
+>>>>>>> a5e759087bfb425b7da472768e1f70912c19d4ba
 }
