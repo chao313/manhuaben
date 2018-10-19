@@ -49,14 +49,14 @@ public class AuthHeaderAspect {
         String authorization = request.getHeader("Authorization");
         logger.info("【http请求Header拦截】:{}", authorization);
         if (null == authorization || "".equals(authorization) || !authorization.startsWith("Bearer ")) {
-            logger.warn("http请求Header拦截】:无authorization请求头");
+            String message = MessageFormat.format("【http请求Header拦截】Header中Authorization格式不正确 {0}", authorization);
+            logger.warn(message);
             Response response = new Response();
-            response.setCode(Code.System.PARAMS_INVALID_MSG);
-            String message = MessageFormat.format("Header中Authorization格式不正确 {1}", authorization);
-            response.setMsg("Header中Authorization格式不正确");
+            response.setCode(Code.System.FAIL);
+            response.setMsg(message);
             return response;
         } else {
-            logger.warn("http请求Header拦截】:authorization请求头正常:{}", authorization);
+            logger.warn("【http请求Header拦截】:authorization请求头正常:{}", authorization);
             return joinPoint.proceed();
         }
 
