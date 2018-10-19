@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot;
+package demo.spring.boot.demospringboot.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
