@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.controller;
+package demo.spring.boot.demospringboot.controller.pub;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

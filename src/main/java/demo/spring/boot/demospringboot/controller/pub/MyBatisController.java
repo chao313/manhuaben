@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.controller;
+package demo.spring.boot.demospringboot.controller.pub;
 
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.controller;
+package demo.spring.boot.demospringboot.controller.pub;
 
 
 import org.slf4j.Logger;
