@@ -96,6 +96,11 @@ jdbc3:
   username: root
   password: 123456
 
+url:
+  security:
+    ## 拦截需要验证的url,数组的形式
+    ## authenticated: /private/**,/framework/**
+    authenticated: /private/**
 
 
 
