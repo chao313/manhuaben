@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsUserDao">
+
+    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="passwd" property="passwd"/>
+        <result column="salt" property="salt"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        INSERT INTO `ts_user`(
+        `id` ,
+        `account` ,
+        `passwd` ,
+        `salt` 
+        )VALUE(
+          #{id}  ,
+          #{account}  ,
+          #{passwd}  ,
+          #{salt}  
+        )
+    </insert>
+
+    <insert id="inserts"
+            parameterType="java.util.List">
+        INSERT INTO `ts_user`(
+        `id`,
+        `account`,
+        `passwd`,
+        `salt`
+        )VALUES
+        <foreach collection="vos" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.account},
+            #{item.passwd},
+            #{item.salt}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryBase" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        SELECT
+        `id`,
+        `account`,
+        `passwd`,
+        `salt`
+        FROM `ts_user`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="account != null">
+                AND `account` = #{account}
+            </if>
+            <if test="passwd != null">
+                AND `passwd` = #{passwd}
+            </if>
+            <if test="salt != null">
+                AND `salt` = #{salt}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        UPDATE `ts_user`
+        <set>
+            <if test="source.account != null">
+                `account` = #{source.account},
+            </if>
+            <if test="source.passwd != null">
+                `passwd` = #{source.passwd},
+            </if>
+            <if test="source.salt != null">
+                `salt` = #{source.salt}
+            </if>
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.account != null">
+                AND `account` = #{target.account}
+            </if>
+            <if test="target.passwd != null">
+                AND `passwd` = #{target.passwd}
+            </if>
+            <if test="target.salt != null">
+                AND `salt` = #{target.salt}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBaseIncludeNull"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        UPDATE `ts_user`
+        <set>
+            `account` = #{source.account},
+            `passwd` = #{source.passwd},
+            `salt` = #{source.salt}
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.account != null">
+                AND `account` = #{target.account}
+            </if>
+            <if test="target.passwd != null">
+                AND `passwd` = #{target.passwd}
+            </if>
+            <if test="target.salt != null">
+                AND `salt` = #{target.salt}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        DELETE FROM `ts_user`
+        <where>
+            1 =1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="account != null">
+                AND `account` = #{account}
+            </if>
+            <if test="passwd != null">
+                AND `passwd` = #{passwd}
+            </if>
+            <if test="salt != null">
+                AND `salt` = #{salt}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="queryByPrimaryKey" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsUserVo">
+        SELECT
+        `id`,
+        `account`,
+        `passwd`,
+        `salt`
+        FROM `ts_user`
+        <where>
+            1 =1
+            AND `id` = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `ts_user`
+        <where>
+            1 = 1
+               AND `id` = #{id}
+        </where>
+    </delete>
+
+</mapper>

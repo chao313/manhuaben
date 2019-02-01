@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsBookDao">
+
+    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        <result column="id" property="id"/>
+        <result column="book_url" property="bookUrl"/>
+        <result column="book_index" property="bookIndex"/>
+        <result column="book_name" property="bookName"/>
+        <result column="book_size" property="bookSize"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        INSERT INTO `ts_book`(
+        `id` ,
+        `book_url` ,
+        `book_index` ,
+        `book_name` ,
+        `book_size` 
+        )VALUE(
+          #{id}  ,
+          #{bookUrl}  ,
+          #{bookIndex}  ,
+          #{bookName}  ,
+          #{bookSize}  
+        )
+    </insert>
+
+    <insert id="inserts"
+            parameterType="java.util.List">
+        INSERT INTO `ts_book`(
+        `id`,
+        `book_url`,
+        `book_index`,
+        `book_name`,
+        `book_size`
+        )VALUES
+        <foreach collection="vos" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.bookUrl},
+            #{item.bookIndex},
+            #{item.bookName},
+            #{item.bookSize}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryBase" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        SELECT
+        `id`,
+        `book_url`,
+        `book_index`,
+        `book_name`,
+        `book_size`
+        FROM `ts_book`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="bookUrl != null">
+                AND `book_url` = #{bookUrl}
+            </if>
+            <if test="bookIndex != null">
+                AND `book_index` = #{bookIndex}
+            </if>
+            <if test="bookName != null">
+                AND `book_name` = #{bookName}
+            </if>
+            <if test="bookSize != null">
+                AND `book_size` = #{bookSize}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        UPDATE `ts_book`
+        <set>
+            <if test="source.bookUrl != null">
+                `book_url` = #{source.bookUrl},
+            </if>
+            <if test="source.bookIndex != null">
+                `book_index` = #{source.bookIndex},
+            </if>
+            <if test="source.bookName != null">
+                `book_name` = #{source.bookName},
+            </if>
+            <if test="source.bookSize != null">
+                `book_size` = #{source.bookSize}
+            </if>
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.bookUrl != null">
+                AND `book_url` = #{target.bookUrl}
+            </if>
+            <if test="target.bookIndex != null">
+                AND `book_index` = #{target.bookIndex}
+            </if>
+            <if test="target.bookName != null">
+                AND `book_name` = #{target.bookName}
+            </if>
+            <if test="target.bookSize != null">
+                AND `book_size` = #{target.bookSize}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBaseIncludeNull"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        UPDATE `ts_book`
+        <set>
+            `book_url` = #{source.bookUrl},
+            `book_index` = #{source.bookIndex},
+            `book_name` = #{source.bookName},
+            `book_size` = #{source.bookSize}
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.bookUrl != null">
+                AND `book_url` = #{target.bookUrl}
+            </if>
+            <if test="target.bookIndex != null">
+                AND `book_index` = #{target.bookIndex}
+            </if>
+            <if test="target.bookName != null">
+                AND `book_name` = #{target.bookName}
+            </if>
+            <if test="target.bookSize != null">
+                AND `book_size` = #{target.bookSize}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        DELETE FROM `ts_book`
+        <where>
+            1 =1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="bookUrl != null">
+                AND `book_url` = #{bookUrl}
+            </if>
+            <if test="bookIndex != null">
+                AND `book_index` = #{bookIndex}
+            </if>
+            <if test="bookName != null">
+                AND `book_name` = #{bookName}
+            </if>
+            <if test="bookSize != null">
+                AND `book_size` = #{bookSize}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="queryByPrimaryKey" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        SELECT
+        `id`,
+        `book_url`,
+        `book_index`,
+        `book_name`,
+        `book_size`
+        FROM `ts_book`
+        <where>
+            1 =1
+            AND `id` = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `ts_book`
+        <where>
+            1 = 1
+               AND `id` = #{id}
+        </where>
+    </delete>
+
+</mapper>

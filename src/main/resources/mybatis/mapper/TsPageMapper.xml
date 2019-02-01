@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsPageDao">
+
+    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        <result column="id" property="id"/>
+        <result column="page_url" property="pageUrl"/>
+        <result column="page_image_url" property="pageImageUrl"/>
+        <result column="page_image" property="pageImage"/>
+        <result column="page_index" property="pageIndex"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        INSERT INTO `ts_page`(
+        `id` ,
+        `page_url` ,
+        `page_image_url` ,
+        `page_image` ,
+        `page_index` 
+        )VALUE(
+          #{id}  ,
+          #{pageUrl}  ,
+          #{pageImageUrl}  ,
+          #{pageImage}  ,
+          #{pageIndex}  
+        )
+    </insert>
+
+    <insert id="inserts"
+            parameterType="java.util.List">
+        INSERT INTO `ts_page`(
+        `id`,
+        `page_url`,
+        `page_image_url`,
+        `page_image`,
+        `page_index`
+        )VALUES
+        <foreach collection="vos" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.pageUrl},
+            #{item.pageImageUrl},
+            #{item.pageImage},
+            #{item.pageIndex}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryBase" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        SELECT
+        `id`,
+        `page_url`,
+        `page_image_url`,
+        `page_image`,
+        `page_index`
+        FROM `ts_page`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="pageUrl != null">
+                AND `page_url` = #{pageUrl}
+            </if>
+            <if test="pageImageUrl != null">
+                AND `page_image_url` = #{pageImageUrl}
+            </if>
+            <if test="pageImage != null">
+                AND `page_image` = #{pageImage}
+            </if>
+            <if test="pageIndex != null">
+                AND `page_index` = #{pageIndex}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        UPDATE `ts_page`
+        <set>
+            <if test="source.pageUrl != null">
+                `page_url` = #{source.pageUrl},
+            </if>
+            <if test="source.pageImageUrl != null">
+                `page_image_url` = #{source.pageImageUrl},
+            </if>
+            <if test="source.pageImage != null">
+                `page_image` = #{source.pageImage},
+            </if>
+            <if test="source.pageIndex != null">
+                `page_index` = #{source.pageIndex}
+            </if>
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.pageUrl != null">
+                AND `page_url` = #{target.pageUrl}
+            </if>
+            <if test="target.pageImageUrl != null">
+                AND `page_image_url` = #{target.pageImageUrl}
+            </if>
+            <if test="target.pageImage != null">
+                AND `page_image` = #{target.pageImage}
+            </if>
+            <if test="target.pageIndex != null">
+                AND `page_index` = #{target.pageIndex}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBaseIncludeNull"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        UPDATE `ts_page`
+        <set>
+            `page_url` = #{source.pageUrl},
+            `page_image_url` = #{source.pageImageUrl},
+            `page_image` = #{source.pageImage},
+            `page_index` = #{source.pageIndex}
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.pageUrl != null">
+                AND `page_url` = #{target.pageUrl}
+            </if>
+            <if test="target.pageImageUrl != null">
+                AND `page_image_url` = #{target.pageImageUrl}
+            </if>
+            <if test="target.pageImage != null">
+                AND `page_image` = #{target.pageImage}
+            </if>
+            <if test="target.pageIndex != null">
+                AND `page_index` = #{target.pageIndex}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        DELETE FROM `ts_page`
+        <where>
+            1 =1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="pageUrl != null">
+                AND `page_url` = #{pageUrl}
+            </if>
+            <if test="pageImageUrl != null">
+                AND `page_image_url` = #{pageImageUrl}
+            </if>
+            <if test="pageImage != null">
+                AND `page_image` = #{pageImage}
+            </if>
+            <if test="pageIndex != null">
+                AND `page_index` = #{pageIndex}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="queryByPrimaryKey" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        SELECT
+        `id`,
+        `page_url`,
+        `page_image_url`,
+        `page_image`,
+        `page_index`
+        FROM `ts_page`
+        <where>
+            1 =1
+            AND `id` = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `ts_page`
+        <where>
+            1 = 1
+               AND `id` = #{id}
+        </where>
+    </delete>
+
+</mapper>

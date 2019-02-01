@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsParamDao">
+
+    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        <result column="key" property="key"/>
+        <result column="value" property="value"/>
+        <result column="des" property="des"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        INSERT INTO `ts_param`(
+        `key` ,
+        `value` ,
+        `des` 
+        )VALUE(
+          #{key}  ,
+          #{value}  ,
+          #{des}  
+        )
+    </insert>
+
+    <insert id="inserts"
+            parameterType="java.util.List">
+        INSERT INTO `ts_param`(
+        `key`,
+        `value`,
+        `des`
+        )VALUES
+        <foreach collection="vos" item="item" separator=",">
+            (
+            #{item.key},
+            #{item.value},
+            #{item.des}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryBase" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        SELECT
+        `key`,
+        `value`,
+        `des`
+        FROM `ts_param`
+        <where>
+            1 = 1
+            <if test="key != null">
+                AND `key` = #{key}
+            </if>
+            <if test="value != null">
+                AND `value` = #{value}
+            </if>
+            <if test="des != null">
+                AND `des` = #{des}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        UPDATE `ts_param`
+        <set>
+            <if test="source.value != null">
+                `value` = #{source.value},
+            </if>
+            <if test="source.des != null">
+                `des` = #{source.des}
+            </if>
+        </set>
+        <where>
+            1 =1
+            <if test="target.key != null">
+                AND `key` = #{target.key}
+            </if>
+            <if test="target.value != null">
+                AND `value` = #{target.value}
+            </if>
+            <if test="target.des != null">
+                AND `des` = #{target.des}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBaseIncludeNull"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        UPDATE `ts_param`
+        <set>
+            `value` = #{source.value},
+            `des` = #{source.des}
+        </set>
+        <where>
+            1 =1
+            <if test="target.key != null">
+                AND `key` = #{target.key}
+            </if>
+            <if test="target.value != null">
+                AND `value` = #{target.value}
+            </if>
+            <if test="target.des != null">
+                AND `des` = #{target.des}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        DELETE FROM `ts_param`
+        <where>
+            1 =1
+            <if test="key != null">
+                AND `key` = #{key}
+            </if>
+            <if test="value != null">
+                AND `value` = #{value}
+            </if>
+            <if test="des != null">
+                AND `des` = #{des}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="queryByPrimaryKey" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsParamVo">
+        SELECT
+        `key`,
+        `value`,
+        `des`
+        FROM `ts_param`
+        <where>
+            1 =1
+            AND `key` = #{key}
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `ts_param`
+        <where>
+            1 = 1
+               AND `key` = #{key}
+        </where>
+    </delete>
+
+</mapper>
