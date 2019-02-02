@@ -8,6 +8,7 @@
         <result column="page_image_url" property="pageImageUrl"/>
         <result column="page_image" property="pageImage"/>
         <result column="page_index" property="pageIndex"/>
+        <result column="book_id" property="bookId"/>
     </resultMap>
 
     <insert id="insert"
@@ -17,13 +18,15 @@
         `page_url` ,
         `page_image_url` ,
         `page_image` ,
-        `page_index` 
+        `page_index` ,
+        `book_id` 
         )VALUE(
           #{id}  ,
           #{pageUrl}  ,
           #{pageImageUrl}  ,
           #{pageImage}  ,
-          #{pageIndex}  
+          #{pageIndex}  ,
+          #{bookId}  
         )
     </insert>
 
@@ -34,7 +37,8 @@
         `page_url`,
         `page_image_url`,
         `page_image`,
-        `page_index`
+        `page_index`,
+        `book_id`
         )VALUES
         <foreach collection="vos" item="item" separator=",">
             (
@@ -42,7 +46,8 @@
             #{item.pageUrl},
             #{item.pageImageUrl},
             #{item.pageImage},
-            #{item.pageIndex}
+            #{item.pageIndex},
+            #{item.bookId}
             )
         </foreach>
     </insert>
@@ -55,7 +60,8 @@
         `page_url`,
         `page_image_url`,
         `page_image`,
-        `page_index`
+        `page_index`,
+        `book_id`
         FROM `ts_page`
         <where>
             1 = 1
@@ -74,6 +80,9 @@
             <if test="pageIndex != null">
                 AND `page_index` = #{pageIndex}
             </if>
+            <if test="bookId != null">
+                AND `book_id` = #{bookId}
+            </if>
         </where>
     </select>
 
@@ -91,7 +100,10 @@
                 `page_image` = #{source.pageImage},
             </if>
             <if test="source.pageIndex != null">
-                `page_index` = #{source.pageIndex}
+                `page_index` = #{source.pageIndex},
+            </if>
+            <if test="source.bookId != null">
+                `book_id` = #{source.bookId}
             </if>
         </set>
         <where>
@@ -110,6 +122,9 @@
             </if>
             <if test="target.pageIndex != null">
                 AND `page_index` = #{target.pageIndex}
+            </if>
+            <if test="target.bookId != null">
+                AND `book_id` = #{target.bookId}
             </if>
         </where>
     </update>
@@ -121,7 +136,8 @@
             `page_url` = #{source.pageUrl},
             `page_image_url` = #{source.pageImageUrl},
             `page_image` = #{source.pageImage},
-            `page_index` = #{source.pageIndex}
+            `page_index` = #{source.pageIndex},
+            `book_id` = #{source.bookId}
         </set>
         <where>
             1 =1
@@ -139,6 +155,9 @@
             </if>
             <if test="target.pageIndex != null">
                 AND `page_index` = #{target.pageIndex}
+            </if>
+            <if test="target.bookId != null">
+                AND `book_id` = #{target.bookId}
             </if>
         </where>
     </update>
@@ -163,6 +182,9 @@
             <if test="pageIndex != null">
                 AND `page_index` = #{pageIndex}
             </if>
+            <if test="bookId != null">
+                AND `book_id` = #{bookId}
+            </if>
         </where>
     </delete>
 
@@ -174,7 +196,8 @@
         `page_url`,
         `page_image_url`,
         `page_image`,
-        `page_index`
+        `page_index`,
+        `book_id`
         FROM `ts_page`
         <where>
             1 =1

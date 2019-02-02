@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsWebPageDao">
+
+    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        <result column="id" property="id"/>
+        <result column="web_page_url" property="webPageUrl"/>
+        <result column="web_page_index" property="webPageIndex"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        INSERT INTO `ts_web_page`(
+        `id` ,
+        `web_page_url` ,
+        `web_page_index` 
+        )VALUE(
+          #{id}  ,
+          #{webPageUrl}  ,
+          #{webPageIndex}  
+        )
+    </insert>
+
+    <insert id="inserts"
+            parameterType="java.util.List">
+        INSERT INTO `ts_web_page`(
+        `id`,
+        `web_page_url`,
+        `web_page_index`
+        )VALUES
+        <foreach collection="vos" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.webPageUrl},
+            #{item.webPageIndex}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryBase" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        SELECT
+        `id`,
+        `web_page_url`,
+        `web_page_index`
+        FROM `ts_web_page`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="webPageUrl != null">
+                AND `web_page_url` = #{webPageUrl}
+            </if>
+            <if test="webPageIndex != null">
+                AND `web_page_index` = #{webPageIndex}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        UPDATE `ts_web_page`
+        <set>
+            <if test="source.webPageUrl != null">
+                `web_page_url` = #{source.webPageUrl},
+            </if>
+            <if test="source.webPageIndex != null">
+                `web_page_index` = #{source.webPageIndex}
+            </if>
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.webPageUrl != null">
+                AND `web_page_url` = #{target.webPageUrl}
+            </if>
+            <if test="target.webPageIndex != null">
+                AND `web_page_index` = #{target.webPageIndex}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBaseIncludeNull"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        UPDATE `ts_web_page`
+        <set>
+            `web_page_url` = #{source.webPageUrl},
+            `web_page_index` = #{source.webPageIndex}
+        </set>
+        <where>
+            1 =1
+            <if test="target.id != null">
+                AND `id` = #{target.id}
+            </if>
+            <if test="target.webPageUrl != null">
+                AND `web_page_url` = #{target.webPageUrl}
+            </if>
+            <if test="target.webPageIndex != null">
+                AND `web_page_index` = #{target.webPageIndex}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        DELETE FROM `ts_web_page`
+        <where>
+            1 =1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="webPageUrl != null">
+                AND `web_page_url` = #{webPageUrl}
+            </if>
+            <if test="webPageIndex != null">
+                AND `web_page_index` = #{webPageIndex}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="queryByPrimaryKey" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo">
+        SELECT
+        `id`,
+        `web_page_url`,
+        `web_page_index`
+        FROM `ts_web_page`
+        <where>
+            1 =1
+            AND `id` = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `ts_web_page`
+        <where>
+            1 = 1
+               AND `id` = #{id}
+        </where>
+    </delete>
+
+</mapper>

@@ -1,5 +1,6 @@
 package demo.spring.boot.demospringboot.mybatis.vo;
 
+import java.sql.Timestamp;
 
 /**
  * 对应的表名   :ts_book
@@ -7,7 +8,7 @@ package demo.spring.boot.demospringboot.mybatis.vo;
  * 表引擎      :InnoDB
  * 表版本      :10
  * 行格式      :Dynamic
- * 表创建时间   :2019-2-1
+ * 表创建时间   :2019-2-2
  * 表字符集    :utf8_vietnamese_ci
  * 表注释      :
  */
@@ -20,6 +21,9 @@ public class TsBookVo {
     private Integer bookIndex;  // book的索引 
     private String bookName;  // book的name 
     private Integer bookSize;  // book的size 
+    private byte[] bookCovers;  // book的封面 
+    private String bookCoversUrl;  // book的封面的url 
+    private Timestamp createTime;  // 创建的日期 
 
 
     public Integer getId() {
@@ -82,6 +86,42 @@ public class TsBookVo {
 
     }
 
+    public byte[] getBookCovers() {
+
+        return bookCovers;
+
+    }
+
+    public void setBookCovers(byte[] bookCovers) {
+
+        this.bookCovers = bookCovers;
+
+    }
+
+    public String getBookCoversUrl() {
+
+        return bookCoversUrl;
+
+    }
+
+    public void setBookCoversUrl(String bookCoversUrl) {
+
+        this.bookCoversUrl = bookCoversUrl;
+
+    }
+
+    public Timestamp getCreateTime() {
+
+        return createTime;
+
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+
+        this.createTime = createTime;
+
+    }
+
 
     @Override
     public String toString() {
@@ -91,6 +131,9 @@ public class TsBookVo {
                 ", bookIndex '" + bookIndex +
                 ", bookName '" + bookName + '\'' +
                 ", bookSize '" + bookSize +
+                ", bookCovers '" + bookCovers +
+                ", bookCoversUrl '" + bookCoversUrl + '\'' +
+                ", createTime '" + createTime +
                 '}';
     }
 

@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * 表引擎      :InnoDB
  * 表版本      :10
  * 行格式      :Dynamic
- * 表创建时间   :2019-2-1
+ * 表创建时间   :2019-2-2
  * 表字符集    :utf8_vietnamese_ci
  * 表注释      :
  */

@@ -8,6 +8,9 @@
         <result column="book_index" property="bookIndex"/>
         <result column="book_name" property="bookName"/>
         <result column="book_size" property="bookSize"/>
+        <result column="book_covers" property="bookCovers"/>
+        <result column="book_covers_url" property="bookCoversUrl"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <insert id="insert"
@@ -17,13 +20,19 @@
         `book_url` ,
         `book_index` ,
         `book_name` ,
-        `book_size` 
+        `book_size` ,
+        `book_covers` ,
+        `book_covers_url` ,
+        `create_time` 
         )VALUE(
           #{id}  ,
           #{bookUrl}  ,
           #{bookIndex}  ,
           #{bookName}  ,
-          #{bookSize}  
+          #{bookSize}  ,
+          #{bookCovers}  ,
+          #{bookCoversUrl}  ,
+          #{createTime}  
         )
     </insert>
 
@@ -34,7 +43,10 @@
         `book_url`,
         `book_index`,
         `book_name`,
-        `book_size`
+        `book_size`,
+        `book_covers`,
+        `book_covers_url`,
+        `create_time`
         )VALUES
         <foreach collection="vos" item="item" separator=",">
             (
@@ -42,7 +54,10 @@
             #{item.bookUrl},
             #{item.bookIndex},
             #{item.bookName},
-            #{item.bookSize}
+            #{item.bookSize},
+            #{item.bookCovers},
+            #{item.bookCoversUrl},
+            #{item.createTime}
             )
         </foreach>
     </insert>
@@ -55,7 +70,10 @@
         `book_url`,
         `book_index`,
         `book_name`,
-        `book_size`
+        `book_size`,
+        `book_covers`,
+        `book_covers_url`,
+        `create_time`
         FROM `ts_book`
         <where>
             1 = 1
@@ -74,6 +92,15 @@
             <if test="bookSize != null">
                 AND `book_size` = #{bookSize}
             </if>
+            <if test="bookCovers != null">
+                AND `book_covers` = #{bookCovers}
+            </if>
+            <if test="bookCoversUrl != null">
+                AND `book_covers_url` = #{bookCoversUrl}
+            </if>
+            <if test="createTime != null">
+                AND `create_time` = #{createTime}
+            </if>
         </where>
     </select>
 
@@ -91,7 +118,16 @@
                 `book_name` = #{source.bookName},
             </if>
             <if test="source.bookSize != null">
-                `book_size` = #{source.bookSize}
+                `book_size` = #{source.bookSize},
+            </if>
+            <if test="source.bookCovers != null">
+                `book_covers` = #{source.bookCovers},
+            </if>
+            <if test="source.bookCoversUrl != null">
+                `book_covers_url` = #{source.bookCoversUrl},
+            </if>
+            <if test="source.createTime != null">
+                `create_time` = #{source.createTime}
             </if>
         </set>
         <where>
@@ -110,6 +146,15 @@
             </if>
             <if test="target.bookSize != null">
                 AND `book_size` = #{target.bookSize}
+            </if>
+            <if test="target.bookCovers != null">
+                AND `book_covers` = #{target.bookCovers}
+            </if>
+            <if test="target.bookCoversUrl != null">
+                AND `book_covers_url` = #{target.bookCoversUrl}
+            </if>
+            <if test="target.createTime != null">
+                AND `create_time` = #{target.createTime}
             </if>
         </where>
     </update>
@@ -121,7 +166,10 @@
             `book_url` = #{source.bookUrl},
             `book_index` = #{source.bookIndex},
             `book_name` = #{source.bookName},
-            `book_size` = #{source.bookSize}
+            `book_size` = #{source.bookSize},
+            `book_covers` = #{source.bookCovers},
+            `book_covers_url` = #{source.bookCoversUrl},
+            `create_time` = #{source.createTime}
         </set>
         <where>
             1 =1
@@ -139,6 +187,15 @@
             </if>
             <if test="target.bookSize != null">
                 AND `book_size` = #{target.bookSize}
+            </if>
+            <if test="target.bookCovers != null">
+                AND `book_covers` = #{target.bookCovers}
+            </if>
+            <if test="target.bookCoversUrl != null">
+                AND `book_covers_url` = #{target.bookCoversUrl}
+            </if>
+            <if test="target.createTime != null">
+                AND `create_time` = #{target.createTime}
             </if>
         </where>
     </update>
@@ -163,6 +220,15 @@
             <if test="bookSize != null">
                 AND `book_size` = #{bookSize}
             </if>
+            <if test="bookCovers != null">
+                AND `book_covers` = #{bookCovers}
+            </if>
+            <if test="bookCoversUrl != null">
+                AND `book_covers_url` = #{bookCoversUrl}
+            </if>
+            <if test="createTime != null">
+                AND `create_time` = #{createTime}
+            </if>
         </where>
     </delete>
 
@@ -174,7 +240,10 @@
         `book_url`,
         `book_index`,
         `book_name`,
-        `book_size`
+        `book_size`,
+        `book_covers`,
+        `book_covers_url`,
+        `create_time`
         FROM `ts_book`
         <where>
             1 =1

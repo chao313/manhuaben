@@ -3,16 +3,16 @@ package demo.spring.boot.demospringboot.mybatis.service.impl;
 
 import java.util.List;
 
-import demo.spring.boot.demospringboot.mybatis.service.TsPageService;
-import demo.spring.boot.demospringboot.mybatis.vo.TsPageVo;
+import demo.spring.boot.demospringboot.mybatis.service.TsWebPageService;
+import demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import demo.spring.boot.demospringboot.mybatis.dao.TsPageDao;
+import demo.spring.boot.demospringboot.mybatis.dao.TsWebPageDao;
 
 
 
 /**
- * 对应的表名   :ts_page
+ * 对应的表名   :ts_web_page
  * 表类型      :BASE TABLE
  * 表引擎      :InnoDB
  * 表版本      :10
@@ -22,16 +22,16 @@ import demo.spring.boot.demospringboot.mybatis.dao.TsPageDao;
  * 表注释      :
  */
 @Service
-public class TsPageServiceImpl implements TsPageService {
+public class TsWebPageServiceImpl implements TsWebPageService {
 
     @Autowired
-    private TsPageDao dao;
+    private TsWebPageDao dao;
 
     /**
      * insert
      */
     @Override
-    public boolean insert(TsPageVo vo) {
+    public boolean insert(TsWebPageVo vo) {
 
         return dao.insert(vo) > 0 ? true : false;
 
@@ -41,7 +41,7 @@ public class TsPageServiceImpl implements TsPageService {
      * insert vos 批量插入
      */
     @Override
-    public boolean insert(List<TsPageVo> vos) {
+    public boolean insert(List<TsWebPageVo> vos) {
 
         return dao.inserts(vos) > 0 ? true : false;
 
@@ -51,7 +51,7 @@ public class TsPageServiceImpl implements TsPageService {
      * 查询base
      */
     @Override
-    public List<TsPageVo> queryBase(TsPageVo query) {
+    public List<TsWebPageVo> queryBase(TsWebPageVo query) {
 
         return dao.queryBase(query);
 
@@ -61,7 +61,7 @@ public class TsPageServiceImpl implements TsPageService {
      * update base (exclude value is null or "")
      */
     @Override
-    public boolean updateBase(TsPageVo source, TsPageVo target) {
+    public boolean updateBase(TsWebPageVo source, TsWebPageVo target) {
 
         return dao.updateBase(source, target) > 0 ? true : false;
 
@@ -71,7 +71,7 @@ public class TsPageServiceImpl implements TsPageService {
      * update base (include value is null or "")
      */
     @Override
-    public boolean updateBaseIncludeNull(TsPageVo source, TsPageVo target) {
+    public boolean updateBaseIncludeNull(TsWebPageVo source, TsWebPageVo target) {
 
         return dao.updateBaseIncludeNull(source, target) > 0 ? true : false;
 
@@ -81,7 +81,7 @@ public class TsPageServiceImpl implements TsPageService {
      * 删除base
      */
     @Override
-    public boolean deleteBase(TsPageVo vo) {
+    public boolean deleteBase(TsWebPageVo vo) {
 
         return dao.deleteBase(vo) > 0 ? true : false;
 
@@ -94,7 +94,7 @@ public class TsPageServiceImpl implements TsPageService {
      * id  
      */
     @Override
-    public TsPageVo queryByPrimaryKey(Integer id) {
+    public TsWebPageVo queryByPrimaryKey(Integer id) {
 
         return dao.queryByPrimaryKey(id);
 

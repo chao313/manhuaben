@@ -7,7 +7,7 @@ package demo.spring.boot.demospringboot.mybatis.vo;
  * 表引擎      :InnoDB
  * 表版本      :10
  * 行格式      :Dynamic
- * 表创建时间   :2019-2-1
+ * 表创建时间   :2019-2-2
  * 表字符集    :utf8_vietnamese_ci
  * 表注释      :
  */
@@ -20,6 +20,7 @@ public class TsPageVo {
     private String pageImageUrl;  // 页面image的url 
     private byte[] pageImage;  // 页面image的流 
     private Integer pageIndex;  // 页面索引 
+    private Integer bookId; 
 
 
     public Integer getId() {
@@ -82,6 +83,18 @@ public class TsPageVo {
 
     }
 
+    public Integer getBookId() {
+
+        return bookId;
+
+    }
+
+    public void setBookId(Integer bookId) {
+
+        this.bookId = bookId;
+
+    }
+
 
     @Override
     public String toString() {
@@ -91,6 +104,7 @@ public class TsPageVo {
                 ", pageImageUrl '" + pageImageUrl + '\'' +
                 ", pageImage '" + pageImage +
                 ", pageIndex '" + pageIndex +
+                ", bookId '" + bookId +
                 '}';
     }
 

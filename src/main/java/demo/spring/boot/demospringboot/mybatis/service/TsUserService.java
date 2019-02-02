@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.service;
+package demo.spring.boot.demospringboot.mybatis.service;
 
 
 import java.util.List;

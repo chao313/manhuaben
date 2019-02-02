@@ -1,9 +1,9 @@
-package demo.spring.boot.demospringboot.service.impl;
+package demo.spring.boot.demospringboot.mybatis.service.impl;
 
 
 import java.util.List;
 
-import demo.spring.boot.demospringboot.service.TsUserService;
+import demo.spring.boot.demospringboot.mybatis.service.TsUserService;
 import demo.spring.boot.demospringboot.mybatis.vo.TsUserVo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
