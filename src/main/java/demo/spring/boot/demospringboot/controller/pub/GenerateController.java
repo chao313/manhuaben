@@ -131,6 +131,13 @@ public class GenerateController {
 
     }
 
+    /**
+     * 下载book的封面
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     @GetMapping("/downloadBookImage")
     public Response downloadBookImage(Integer start, Integer end) {
         Response<Boolean> response = new Response<>();
@@ -149,6 +156,13 @@ public class GenerateController {
 
     }
 
+    /**
+     * 下载book的封面 转为 local_image
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     @GetMapping("/downloadBookImageToLocalImage")
     public Response downloadBookImageToLocalImage(Integer start, Integer end) {
         Response<Boolean> response = new Response<>();
@@ -156,6 +170,82 @@ public class GenerateController {
             response.setCode(Code.System.OK);
             response.setMsg(Code.System.SERVER_SUCCESS_MSG);
             boolean result = generateService.downloadBookImageToLocalImage(start, end);
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    /**
+     * 下载page
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    @GetMapping("/downloadPageImage")
+    public Response downloadPageImage(Integer start, Integer end) {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.downloadPageImage(start, end);
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    /**
+     * 下载book的封面 转为 local_image
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    @GetMapping("/downloadPageImageToLocalImage")
+    public Response downloadPageImageToLocalImage(Integer start, Integer end) {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.downloadPageImageToLocalImage(start, end);
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+
+    /**
+     * 下载page
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    @GetMapping("/downloadPageImageRun")
+    public Response downloadPageImageRun(Integer start, Integer end) {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.downloadPageImageRun(start, end);
             response.setContent(result);
         } catch (Exception e) {
             response.setCode(Code.System.FAIL);

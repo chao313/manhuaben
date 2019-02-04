@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TsPageDao">
+<mapper namespace="demo2.TsPageDao">
 
-    <resultMap id="resultMap" type="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+    <resultMap id="resultMap" type="demo2.TsPageVo">
         <result column="id" property="id"/>
         <result column="page_url" property="pageUrl"/>
         <result column="page_image_url" property="pageImageUrl"/>
@@ -13,7 +13,7 @@
     </resultMap>
 
     <insert id="insert"
-            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            parameterType="demo2.TsPageVo">
         INSERT INTO `ts_page`(
         `id` ,
         `page_url` ,
@@ -21,7 +21,7 @@
         `page_image` ,
         `page_index` ,
         `book_id` ,
-        `loacl_image_url`
+        `loacl_image_url` 
         )VALUE(
           #{id}  ,
           #{pageUrl}  ,
@@ -29,7 +29,7 @@
           #{pageImage}  ,
           #{pageIndex}  ,
           #{bookId}  ,
-          #{loaclImageUrl}
+          #{loaclImageUrl}  
         )
     </insert>
 
@@ -58,8 +58,8 @@
     </insert>
 
     <select id="queryBase" resultMap="resultMap"
-            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo"
-            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            resultType="demo2.TsPageVo"
+            parameterType="demo2.TsPageVo">
         SELECT
         `id`,
         `page_url`,
@@ -92,14 +92,11 @@
             <if test="loaclImageUrl != null">
                 AND `loacl_image_url` = #{loaclImageUrl}
             </if>
-            <if test="start != null and end != null">
-                limit ${start-1}, ${end-start+1}
-            </if>
         </where>
     </select>
 
     <update id="updateBase"
-            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            parameterType="demo2.TsPageVo">
         UPDATE `ts_page`
         <set>
             <if test="source.pageUrl != null">
@@ -148,7 +145,7 @@
     </update>
 
     <update id="updateBaseIncludeNull"
-            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            parameterType="demo2.TsPageVo">
         UPDATE `ts_page`
         <set>
             `page_url` = #{source.pageUrl},
@@ -185,7 +182,7 @@
     </update>
 
     <delete id="deleteBase"
-            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            parameterType="demo2.TsPageVo">
         DELETE FROM `ts_page`
         <where>
             1 =1
@@ -215,7 +212,7 @@
 
 
     <select id="queryByPrimaryKey" resultMap="resultMap"
-            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+            resultType="demo2.TsPageVo">
         SELECT
         `id`,
         `page_url`,
@@ -235,7 +232,7 @@
         DELETE FROM `ts_page`
         <where>
             1 = 1
-            AND `id` = #{id}
+               AND `id` = #{id}
         </where>
     </delete>
 

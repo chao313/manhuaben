@@ -26,9 +26,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -295,8 +293,94 @@ public class GenerateService {
                 FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/book_cover_jpg/book_" + bookVo.getBookIndex() + ".jpg"));//打开输入流
                 imageOutput.write(bookVo.getBookCovers(), 0, bookVo.getBookCovers().length);//将byte写入硬盘
                 imageOutput.close();
+                TsBookVo source = new TsBookVo();
+                source.setLocalImageUrl("book_" + bookVo.getBookIndex() + ".jpg");
+                tsBookService.updateBase(source, bookVo);
             }
         }
         return true;
     }
+
+    /**
+     * 下载page
+     *
+     * @return
+     */
+    public boolean downloadPageImage(Integer start, Integer end) {
+        TsPageVo tsPageVo = new TsPageVo();
+        tsPageVo.setStart(start);
+        tsPageVo.setEnd(end);
+        List<TsPageVo> tsPageVos = tsPageService.queryBase(tsPageVo);
+        for (TsPageVo pageVo : tsPageVos) {
+            if (null == pageVo.getPageImage()) {
+                byte[] bytes = IpadGet.getBytes(pageVo.getPageImageUrl());
+                TsPageVo source = new TsPageVo();
+                source.setPageImage(bytes);
+                tsPageService.updateBase(source, pageVo);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 下载book的封面 to loacl_image
+     *
+     * @return
+     */
+    public boolean downloadPageImageToLocalImage(Integer start, Integer end) throws IOException {
+        TsPageVo vo = new TsPageVo();
+        vo.setStart(start);
+        vo.setEnd(end);
+        List<TsPageVo> list = tsPageService.queryBase(vo);
+        for (TsPageVo pageVo : list) {
+            if (null == pageVo.getLoaclImageUrl() && null != pageVo.getPageImage()) {
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/book_cover_jpg/book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg"));//打开输入流
+                imageOutput.write(pageVo.getPageImage(), 0, pageVo.getPageImage().length);//将byte写入硬盘
+                imageOutput.close();
+                TsPageVo source = new TsPageVo();
+                source.setLoaclImageUrl("book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg");
+                tsPageService.updateBase(source, pageVo);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 下载page
+     *
+     * @return
+     */
+    public boolean downloadPageImageRun(Integer start, Integer end) {
+        TsPageVo tsPageVo = new TsPageVo();
+        tsPageVo.setStart(start);
+        tsPageVo.setEnd(end);
+        List<TsPageVo> tsPageVos = tsPageService.queryBase(tsPageVo);
+        List<TsPageVo> tsPageVos1 = Collections.synchronizedList(new LinkedList<>(tsPageVos));
+        ThreadGroup tg = new ThreadGroup("线程组");
+        while (Thread.currentThread().getThreadGroup().activeCount() <= 800) {
+            Runnable runnable = new DownloadPageRun(tsPageVos1, tsPageService);
+            new Thread(tg, runnable, runnable.toString()).start();
+        }
+        return true;
+    }
+
+    /**
+     * 下载page to loacl_image
+     *
+     * @return
+     */
+//    public boolean downloadPageImageToLocalImage(Integer start, Integer end) throws IOException {
+//        TsBookVo tsBookVo = new TsBookVo();
+//        tsBookVo.setStart(start);
+//        tsBookVo.setEnd(end);
+//        List<TsBookVo> tsBookVoList = tsBookService.queryBase(tsBookVo);
+//        for (TsBookVo bookVo : tsBookVoList) {
+//            if (null == bookVo.getLocalImageUrl()) {
+//                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/page_jpg/book_" + bookVo.getBookIndex() + "page_"+".jpg"));//打开输入流
+//                imageOutput.write(bookVo.getBookCovers(), 0, bookVo.getBookCovers().length);//将byte写入硬盘
+//                imageOutput.close();
+//            }
+//        }
+//        return true;
+//    }
 }

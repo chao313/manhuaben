@@ -1,4 +1,4 @@
-package demo.spring.boot.demospringboot.mybatis.vo;
+package demo2;
 
 
 /**
@@ -7,7 +7,7 @@ package demo.spring.boot.demospringboot.mybatis.vo;
  * 表引擎      :InnoDB
  * 表版本      :10
  * 行格式      :Dynamic
- * 表创建时间   :2019-2-2
+ * 表创建时间   :2019-2-4
  * 表字符集    :utf8_vietnamese_ci
  * 表注释      :
  */
@@ -15,39 +15,14 @@ package demo.spring.boot.demospringboot.mybatis.vo;
 
 public class TsPageVo {
 
-    private Integer id;
+    private Integer id; 
     private String pageUrl;  // 页面的url 
     private String pageImageUrl;  // 页面image的url 
     private byte[] pageImage;  // 页面image的流 
     private Integer pageIndex;  // 页面索引 
-    private Integer bookId;
-    private String loaclImageUrl;  // 本地的url
-    private Integer start;
-    private Integer end;
+    private Integer bookId;  // 对应book的id 
+    private String loaclImageUrl;  // 本地的url 
 
-    public String getLoaclImageUrl() {
-        return loaclImageUrl;
-    }
-
-    public void setLoaclImageUrl(String loaclImageUrl) {
-        this.loaclImageUrl = loaclImageUrl;
-    }
-
-    public Integer getStart() {
-        return start;
-    }
-
-    public void setStart(Integer start) {
-        this.start = start;
-    }
-
-    public Integer getEnd() {
-        return end;
-    }
-
-    public void setEnd(Integer end) {
-        this.end = end;
-    }
 
     public Integer getId() {
 
@@ -121,6 +96,18 @@ public class TsPageVo {
 
     }
 
+    public String getLoaclImageUrl() {
+
+        return loaclImageUrl;
+
+    }
+
+    public void setLoaclImageUrl(String loaclImageUrl) {
+
+        this.loaclImageUrl = loaclImageUrl;
+
+    }
+
 
     @Override
     public String toString() {
@@ -131,6 +118,7 @@ public class TsPageVo {
                 ", pageImage '" + pageImage +
                 ", pageIndex '" + pageIndex +
                 ", bookId '" + bookId +
+                ", loaclImageUrl '" + loaclImageUrl + '\'' +
                 '}';
     }
 
