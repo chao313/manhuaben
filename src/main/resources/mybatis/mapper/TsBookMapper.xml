@@ -11,6 +11,7 @@
         <result column="book_covers" property="bookCovers"/>
         <result column="book_covers_url" property="bookCoversUrl"/>
         <result column="create_time" property="createTime"/>
+        <result column="local_image_url" property="localImageUrl"/>
     </resultMap>
 
     <insert id="insert"
@@ -23,7 +24,8 @@
         `book_size` ,
         `book_covers` ,
         `book_covers_url` ,
-        `create_time` 
+        `create_time` ,
+        `local_image_url` 
         )VALUE(
           #{id}  ,
           #{bookUrl}  ,
@@ -32,7 +34,8 @@
           #{bookSize}  ,
           #{bookCovers}  ,
           #{bookCoversUrl}  ,
-          #{createTime}  
+          #{createTime}  ,
+          #{localImageUrl}  
         )
     </insert>
 
@@ -46,7 +49,8 @@
         `book_size`,
         `book_covers`,
         `book_covers_url`,
-        `create_time`
+        `create_time`,
+        `local_image_url`
         )VALUES
         <foreach collection="vos" item="item" separator=",">
             (
@@ -57,7 +61,8 @@
             #{item.bookSize},
             #{item.bookCovers},
             #{item.bookCoversUrl},
-            #{item.createTime}
+            #{item.createTime},
+            #{item.localImageUrl}
             )
         </foreach>
     </insert>
@@ -73,7 +78,8 @@
         `book_size`,
         `book_covers`,
         `book_covers_url`,
-        `create_time`
+        `create_time`,
+        `local_image_url`
         FROM `ts_book`
         <where>
             1 = 1
@@ -101,6 +107,12 @@
             <if test="createTime != null">
                 AND `create_time` = #{createTime}
             </if>
+            <if test="localImageUrl != null">
+                AND `local_image_url` = #{localImageUrl}
+            </if>
+            <if test="start != null and end != null">
+                limit ${start-1}, ${end-start+1}
+            </if>
         </where>
     </select>
 
@@ -127,7 +139,10 @@
                 `book_covers_url` = #{source.bookCoversUrl},
             </if>
             <if test="source.createTime != null">
-                `create_time` = #{source.createTime}
+                `create_time` = #{source.createTime},
+            </if>
+            <if test="source.localImageUrl != null">
+                `local_image_url` = #{source.localImageUrl}
             </if>
         </set>
         <where>
@@ -155,6 +170,9 @@
             </if>
             <if test="target.createTime != null">
                 AND `create_time` = #{target.createTime}
+            </if>
+            <if test="target.localImageUrl != null">
+                AND `local_image_url` = #{target.localImageUrl}
             </if>
         </where>
     </update>
@@ -169,7 +187,8 @@
             `book_size` = #{source.bookSize},
             `book_covers` = #{source.bookCovers},
             `book_covers_url` = #{source.bookCoversUrl},
-            `create_time` = #{source.createTime}
+            `create_time` = #{source.createTime},
+            `local_image_url` = #{source.localImageUrl}
         </set>
         <where>
             1 =1
@@ -196,6 +215,9 @@
             </if>
             <if test="target.createTime != null">
                 AND `create_time` = #{target.createTime}
+            </if>
+            <if test="target.localImageUrl != null">
+                AND `local_image_url` = #{target.localImageUrl}
             </if>
         </where>
     </update>
@@ -229,6 +251,9 @@
             <if test="createTime != null">
                 AND `create_time` = #{createTime}
             </if>
+            <if test="localImageUrl != null">
+                AND `local_image_url` = #{localImageUrl}
+            </if>
         </where>
     </delete>
 
@@ -243,7 +268,8 @@
         `book_size`,
         `book_covers`,
         `book_covers_url`,
-        `create_time`
+        `create_time`,
+        `local_image_url`
         FROM `ts_book`
         <where>
             1 =1
@@ -255,7 +281,7 @@
         DELETE FROM `ts_book`
         <where>
             1 = 1
-               AND `id` = #{id}
+            AND `id` = #{id}
         </where>
     </delete>
 

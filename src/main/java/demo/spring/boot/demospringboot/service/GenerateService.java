@@ -8,7 +8,6 @@ import demo.spring.boot.demospringboot.mybatis.vo.TsBookVo;
 import demo.spring.boot.demospringboot.mybatis.vo.TsPageVo;
 import demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo;
 import demo.spring.boot.demospringboot.util.IpadGet;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -248,6 +254,47 @@ public class GenerateService {
             }
             if (tsPageVoList.size() > 0) {
                 tsPageService.insert(tsPageVoList);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 下载book的封面
+     *
+     * @return
+     */
+    public boolean downloadBookImage(Integer start, Integer end) {
+        TsBookVo tsBookVo = new TsBookVo();
+        tsBookVo.setStart(start);
+        tsBookVo.setEnd(end);
+        List<TsBookVo> tsBookVoList = tsBookService.queryBase(tsBookVo);
+        for (TsBookVo bookVo : tsBookVoList) {
+            if (null == bookVo.getBookCovers()) {
+                byte[] bytes = IpadGet.getBytes(bookVo.getBookCoversUrl());
+                TsBookVo source = new TsBookVo();
+                source.setBookCovers(bytes);
+                tsBookService.updateBase(source, bookVo);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 下载book的封面 to loacl_image
+     *
+     * @return
+     */
+    public boolean downloadBookImageToLocalImage(Integer start, Integer end) throws IOException {
+        TsBookVo tsBookVo = new TsBookVo();
+        tsBookVo.setStart(start);
+        tsBookVo.setEnd(end);
+        List<TsBookVo> tsBookVoList = tsBookService.queryBase(tsBookVo);
+        for (TsBookVo bookVo : tsBookVoList) {
+            if (null == bookVo.getLocalImageUrl()) {
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/book_cover_jpg/book_" + bookVo.getBookIndex() + ".jpg"));//打开输入流
+                imageOutput.write(bookVo.getBookCovers(), 0, bookVo.getBookCovers().length);//将byte写入硬盘
+                imageOutput.close();
             }
         }
         return true;

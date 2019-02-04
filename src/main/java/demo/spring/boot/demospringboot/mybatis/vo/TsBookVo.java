@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * 表引擎      :InnoDB
  * 表版本      :10
  * 行格式      :Dynamic
- * 表创建时间   :2019-2-2
+ * 表创建时间   :2019-2-4
  * 表字符集    :utf8_vietnamese_ci
  * 表注释      :
  */
@@ -24,7 +24,25 @@ public class TsBookVo {
     private byte[] bookCovers;  // book的封面 
     private String bookCoversUrl;  // book的封面的url 
     private Timestamp createTime;  // 创建的日期 
+    private String localImageUrl;  // 本地图片的url 
+    private Integer start;
+    private Integer end;
 
+    public Integer getStart() {
+        return start;
+    }
+
+    public void setStart(Integer start) {
+        this.start = start;
+    }
+
+    public Integer getEnd() {
+        return end;
+    }
+
+    public void setEnd(Integer end) {
+        this.end = end;
+    }
 
     public Integer getId() {
 
@@ -122,6 +140,18 @@ public class TsBookVo {
 
     }
 
+    public String getLocalImageUrl() {
+
+        return localImageUrl;
+
+    }
+
+    public void setLocalImageUrl(String localImageUrl) {
+
+        this.localImageUrl = localImageUrl;
+
+    }
+
 
     @Override
     public String toString() {
@@ -134,6 +164,7 @@ public class TsBookVo {
                 ", bookCovers '" + bookCovers +
                 ", bookCoversUrl '" + bookCoversUrl + '\'' +
                 ", createTime '" + createTime +
+                ", localImageUrl '" + localImageUrl + '\'' +
                 '}';
     }
 

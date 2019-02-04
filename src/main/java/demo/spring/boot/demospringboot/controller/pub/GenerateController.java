@@ -130,4 +130,40 @@ public class GenerateController {
         return response;
 
     }
+
+    @GetMapping("/downloadBookImage")
+    public Response downloadBookImage(Integer start, Integer end) {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.downloadBookImage(start, end);
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    @GetMapping("/downloadBookImageToLocalImage")
+    public Response downloadBookImageToLocalImage(Integer start, Integer end) {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.downloadBookImageToLocalImage(start, end);
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
 }
