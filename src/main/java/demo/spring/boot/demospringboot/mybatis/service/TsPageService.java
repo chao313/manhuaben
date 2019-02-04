@@ -55,16 +55,33 @@ public interface TsPageService {
     /**
      * 根据PrimaryKey查询
      * <p>
-     * id : 
+     * id :
      */
     TsPageVo queryByPrimaryKey(Integer id);
 
     /**
      * 根据PrimaryKey删除
      * <p>
-     * id : 
+     * id :
      */
     boolean deleteByPrimaryKey(Integer id);
+
+    /**
+     * 根据index和bookId查询
+     *
+     * @param pageIndex
+     * @param bookId
+     * @return
+     */
+    List<TsPageVo> queryBaseByIndexAndBookId(Integer pageIndex, Integer bookId);
+
+    /**
+     * 根据bookId查询
+     *
+     * @param bookId
+     * @return
+     */
+    List<TsPageVo> queryBaseByBookId(Integer bookId);
 
 
 }

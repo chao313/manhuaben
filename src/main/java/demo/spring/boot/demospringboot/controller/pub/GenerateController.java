@@ -58,4 +58,76 @@ public class GenerateController {
         return response;
 
     }
+
+    @GetMapping("/makeUpBook")
+    public Response makeUpBook() {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.makeUpBookSizeNameDate();
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    @GetMapping("/page")
+    public Response generatePage() {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.generatePage();
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    @GetMapping("/makeUpPageImage")
+    public Response makeUpPageImage() {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.makeUpPageImage();
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
+
+    @GetMapping("/makeUpPageImageOld")
+    public Response makeUpPageImageOld() {
+        Response<Boolean> response = new Response<>();
+        try {
+            response.setCode(Code.System.OK);
+            response.setMsg(Code.System.SERVER_SUCCESS_MSG);
+            boolean result = generateService.makeUpPageImageOld();
+            response.setContent(result);
+        } catch (Exception e) {
+            response.setCode(Code.System.FAIL);
+            response.setMsg(e.toString());
+            response.addException(e);
+            logger.info("SUCCESS:{}", e.getMessage(), e);
+        }
+        return response;
+
+    }
 }

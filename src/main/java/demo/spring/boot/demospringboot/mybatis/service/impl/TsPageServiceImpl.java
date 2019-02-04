@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import demo.spring.boot.demospringboot.mybatis.dao.TsPageDao;
 
 
-
 /**
  * 对应的表名   :ts_page
  * 表类型      :BASE TABLE
@@ -91,7 +90,7 @@ public class TsPageServiceImpl implements TsPageService {
     /**
      * 根据PrimaryKey查询
      * <p>
-     * id  
+     * id
      */
     @Override
     public TsPageVo queryByPrimaryKey(Integer id) {
@@ -103,13 +102,28 @@ public class TsPageServiceImpl implements TsPageService {
     /**
      * 根据PrimaryKey删除
      * <p>
-     * id : 
+     * id :
      */
     @Override
     public boolean deleteByPrimaryKey(Integer id) {
 
         return dao.deleteByPrimaryKey(id) > 0 ? true : false;
 
+    }
+
+    @Override
+    public List<TsPageVo> queryBaseByIndexAndBookId(Integer pageIndex, Integer bookId) {
+        TsPageVo query = new TsPageVo();
+        query.setPageIndex(pageIndex);
+        query.setBookId(bookId);
+        return this.queryBase(query);
+    }
+
+    @Override
+    public List<TsPageVo> queryBaseByBookId(Integer bookId) {
+        TsPageVo query = new TsPageVo();
+        query.setBookId(bookId);
+        return this.queryBase(query);
     }
 
 }
