@@ -35,6 +35,11 @@ public interface TsPageService {
      */
     List<TsPageVo> queryBase(TsPageVo query);
 
+    /**
+     * 查询base Count
+     */
+    Integer queryBaseCount(TsPageVo query);
+
 
     /**
      * update base (exclude value is null or "")

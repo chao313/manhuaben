@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import demo.spring.boot.demospringboot.mybatis.dao.TsBookDao;
 
 
-
 /**
  * 对应的表名   :ts_book
  * 表类型      :BASE TABLE
@@ -57,6 +56,11 @@ public class TsBookServiceImpl implements TsBookService {
 
     }
 
+    @Override
+    public Integer queryBaseCount(TsBookVo query) {
+        return dao.queryBaseCount(query);
+    }
+
     /**
      * update base (exclude value is null or "")
      */
@@ -91,7 +95,7 @@ public class TsBookServiceImpl implements TsBookService {
     /**
      * 根据PrimaryKey查询
      * <p>
-     * id  
+     * id
      */
     @Override
     public TsBookVo queryByPrimaryKey(Integer id) {
@@ -103,7 +107,7 @@ public class TsBookServiceImpl implements TsBookService {
     /**
      * 根据PrimaryKey删除
      * <p>
-     * id : 
+     * id :
      */
     @Override
     public boolean deleteByPrimaryKey(Integer id) {

@@ -64,7 +64,7 @@
         `id`,
         `page_url`,
         `page_image_url`,
-        `page_image`,
+--         `page_image`,
         `page_index`,
         `book_id`,
         `loacl_image_url`
@@ -94,6 +94,38 @@
             </if>
             <if test="start != null and end != null">
                 limit ${start-1}, ${end-start+1}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBaseCount"
+            resultType="java.lang.Integer"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        SELECT
+        count(1)
+        FROM `ts_page`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="pageUrl != null">
+                AND `page_url` = #{pageUrl}
+            </if>
+            <if test="pageImageUrl != null">
+                AND `page_image_url` = #{pageImageUrl}
+            </if>
+            <if test="pageImage != null">
+                AND `page_image` = #{pageImage}
+            </if>
+            <if test="pageIndex != null">
+                AND `page_index` = #{pageIndex}
+            </if>
+            <if test="bookId != null">
+                AND `book_id` = #{bookId}
+            </if>
+            <if test="loaclImageUrl != null">
+                AND `loacl_image_url` = #{loaclImageUrl}
             </if>
         </where>
     </select>

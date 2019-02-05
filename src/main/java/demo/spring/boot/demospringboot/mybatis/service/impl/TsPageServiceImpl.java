@@ -56,6 +56,11 @@ public class TsPageServiceImpl implements TsPageService {
 
     }
 
+    @Override
+    public Integer queryBaseCount(TsPageVo query) {
+        return dao.queryBaseCount(query);
+    }
+
     /**
      * update base (exclude value is null or "")
      */

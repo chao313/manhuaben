@@ -36,6 +36,11 @@ public interface TsBookDao {
     List<TsBookVo> queryBase(TsBookVo query);
 
     /**
+     * 查询base
+     */
+    Integer queryBaseCount(TsBookVo query);
+
+    /**
      * update base (exclude value is null or "")
      */
     int updateBase(@Param(value = "source") TsBookVo source, @Param(value = "target") TsBookVo target);

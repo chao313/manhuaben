@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="../bootstrap.min.css" rel="stylesheet">
+    <link href="/chao/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<#list tsBookVoList as vo>
+<#list pageList as vo>
 <td>
-    <a href="/chao/pageList?bookId=${vo.id}">
-        <h2>${vo.bookName}</h2>
-        <img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">
-    </a>
+    <img src="/chao/book_cover_jpg/${vo.loaclImageUrl!'-'}">
 </td>
 </#list>
 <#list pageHelpers as pageHelperVo>

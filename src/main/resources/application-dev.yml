@@ -46,6 +46,14 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*Mapper.xml
   config-location: classpath:mybatis/config/mybatis-config.xml
 
+resources:
+  ##静态资源
+  ## -- 如果不配置，都可以访问
+  ## -- 如果配置，都可以只能访问指定路径下的
+  ## http://localhost:8081/chao/static.txt
+  ## http://localhost:8081/chao/public.txt
+  static-locations: classpath:/static/
+
 url:
   security:
     ## 拦截需要验证的url,数组的形式

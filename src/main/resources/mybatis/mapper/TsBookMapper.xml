@@ -116,6 +116,44 @@
         </where>
     </select>
 
+    <select id="queryBaseCount"
+            resultType="java.lang.Integer"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
+        SELECT
+        count(1)
+        FROM `ts_book`
+        <where>
+            1 = 1
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="bookUrl != null">
+                AND `book_url` = #{bookUrl}
+            </if>
+            <if test="bookIndex != null">
+                AND `book_index` = #{bookIndex}
+            </if>
+            <if test="bookName != null">
+                AND `book_name` = #{bookName}
+            </if>
+            <if test="bookSize != null">
+                AND `book_size` = #{bookSize}
+            </if>
+            <if test="bookCovers != null">
+                AND `book_covers` = #{bookCovers}
+            </if>
+            <if test="bookCoversUrl != null">
+                AND `book_covers_url` = #{bookCoversUrl}
+            </if>
+            <if test="createTime != null">
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="localImageUrl != null">
+                AND `local_image_url` = #{localImageUrl}
+            </if>
+        </where>
+    </select>
+
     <update id="updateBase"
             parameterType="demo.spring.boot.demospringboot.mybatis.vo.TsBookVo">
         UPDATE `ts_book`

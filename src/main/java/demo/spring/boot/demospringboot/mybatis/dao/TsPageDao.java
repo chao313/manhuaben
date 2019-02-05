@@ -36,6 +36,11 @@ public interface TsPageDao {
     List<TsPageVo> queryBase(TsPageVo query);
 
     /**
+     * 查询base Count
+     */
+    Integer queryBaseCount(TsPageVo query);
+
+    /**
      * update base (exclude value is null or "")
      */
     int updateBase(@Param(value = "source") TsPageVo source, @Param(value = "target") TsPageVo target);
@@ -52,18 +57,17 @@ public interface TsPageDao {
     int deleteBase(TsPageVo vo);
 
 
-
     /**
      * 根据PrimaryKey查询
      * <p>
-     * id : 
+     * id :
      */
     TsPageVo queryByPrimaryKey(Integer id);
 
     /**
      * 根据PrimaryKey删除
      * <p>
-     * id : 
+     * id :
      */
     int deleteByPrimaryKey(Integer id);
 

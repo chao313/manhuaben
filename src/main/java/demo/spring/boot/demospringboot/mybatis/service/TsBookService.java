@@ -35,6 +35,11 @@ public interface TsBookService {
      */
     List<TsBookVo> queryBase(TsBookVo query);
 
+    /**
+     * 查询base Count
+     */
+    Integer queryBaseCount(TsBookVo query);
+
 
     /**
      * update base (exclude value is null or "")
@@ -55,14 +60,14 @@ public interface TsBookService {
     /**
      * 根据PrimaryKey查询
      * <p>
-     * id : 
+     * id :
      */
     TsBookVo queryByPrimaryKey(Integer id);
 
     /**
      * 根据PrimaryKey删除
      * <p>
-     * id : 
+     * id :
      */
     boolean deleteByPrimaryKey(Integer id);
 
