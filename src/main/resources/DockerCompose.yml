@@ -1,0 +1,25 @@
+version: '3'
+services:
+  ##docker create --name mysql_1 -p 33061:3306  --privileged=true  -v /home/mysql_1:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  -ti docker.io/mysql
+  mysql_1:
+    container_name: mysql
+    image: docker.io/mysql
+    ports:
+    - 33061:3306
+    volumes:
+    - $PWD/mysql_1:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    privileged: true
+
+  ## tomcat
+  ## docker create --name tomcat_dzr -p 18000:8443 --privileged=true -ti -v /home/tomcat_dzr/tomcat:/usr/local/tomcat/  docker.io/tomcat
+  tomcat_1:
+    container_name: tomcat
+    image: docker.io/tomcat
+    ports:
+    - 18000:8084
+    volumes:
+    - $PWD/tomcat_1/:/root/tomcat_1/
+    privileged: true
+

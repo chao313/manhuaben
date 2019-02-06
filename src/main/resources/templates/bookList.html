@@ -47,7 +47,8 @@
 <#list tsBookVoList as vo>
 <div class="img">
     <a href="/chao/pageList?bookId=${vo.id?c}">
-        <img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">
+        <!--<img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">-->
+        <img src="/chao/book_cover_jpg/${vo.bookCoversUrl!'-'}">
         <h5 class="img_des">${vo.bookName}</h5>
     </a>
 </div>
