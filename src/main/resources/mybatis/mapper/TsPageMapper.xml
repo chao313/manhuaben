@@ -64,7 +64,7 @@
         `id`,
         `page_url`,
         `page_image_url`,
---         `page_image`,
+        `page_image`,
         `page_index`,
         `book_id`,
         `loacl_image_url`
@@ -92,6 +92,9 @@
             <if test="loaclImageUrl != null">
                 AND `loacl_image_url` = #{loaclImageUrl}
             </if>
+--             AND page_image is null
+--                AND page_image is not null
+--             AND loacl_image_url is null
             <if test="start != null and end != null">
                 limit ${start-1}, ${end-start+1}
             </if>

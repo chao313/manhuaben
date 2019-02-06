@@ -2,19 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>少女漫画-${tsBookVo.bookName}</title>
     <link href="/chao/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+    .page_img {
+        width: 90%;
+        margin-left: 5%;
+        margin-bottom: 40px;
+    }
+
+    .button {
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 10%;
+        float: left;
+    }
+</style>
 <body>
-<#list pageList as vo>
-<td>
-    <img src="/chao/book_cover_jpg/${vo.loaclImageUrl!'-'}">
-</td>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">少女漫画</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href="/chao/bookList">首页</a></li>
+                <li class="active"><a href="#">${tsBookVo.bookName}</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+    <#list pageList as vo>
+    <td>
+        <img class="page_img" src="/chao/book_cover_jpg/${vo.loaclImageUrl!'-'}">
+    </td>
 </#list>
-<#list pageHelpers as pageHelperVo>
-<a href="${pageHelperVo.url}${pageHelperVo.param}">
-    <button value="${pageHelperVo.value}">${pageHelperVo.value}</button>
-</a>
+</div>
+
+
+<div>
+    <#list pageHelpers as pageHelperVo>
+    <div class="button">
+        <a href="${pageHelperVo.url}${pageHelperVo.param}">
+            <button type="button" class="btn btn-lg" value="${pageHelperVo.value}">${pageHelperVo.value}</button>
+        </a>
+    </div>
 </#list>
+</div>
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+<!--<div class="container-fluid">-->
+<!--<div class="navbar-header">-->
+<!--<a class="navbar-brand" href="#">少女漫画</a>-->
+<!--</div>-->
+<!--<div>-->
+<!--<ul class="nav navbar-nav">-->
+<!--<li><a href="/chao/bookList">首页</a></li>-->
+<!--<li class="active"><a href="#">${tsBookVo.bookName}</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--</nav>-->
 </body>
 </html>

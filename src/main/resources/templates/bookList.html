@@ -2,22 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="../bootstrap.min.css" rel="stylesheet">
+    <title>少女漫画-首页</title>
+    <link href="/chao/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+    .img {
+        width: 33%;
+        float: left;
+        margin-left: 3px;
+    }
+    .img img {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    .img_des {
+        margin-left: 10%;
+        width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .button {
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 10%;
+        float: left;
+    }
+</style>
 <body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">少女漫画</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/chao/bookList">首页</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <#list tsBookVoList as vo>
-<td>
-    <a href="/chao/pageList?bookId=${vo.id}">
-        <h2>${vo.bookName}</h2>
+<div class="img">
+    <a href="/chao/pageList?bookId=${vo.id?c}">
         <img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">
+        <h5 class="img_des">${vo.bookName}</h5>
     </a>
-</td>
+</div>
 </#list>
-<#list pageHelpers as pageHelperVo>
-<a href="${pageHelperVo.url}${pageHelperVo.param}">
-    <button value="${pageHelperVo.value}">${pageHelperVo.value}</button>
-</a>
+<div>
+    <#list pageHelpers as pageHelperVo>
+    <div class="button">
+        <a href="${pageHelperVo.url}${pageHelperVo.param}">
+            <button type="button" class="btn btn-lg" value="${pageHelperVo.value}">${pageHelperVo.value}</button>
+        </a>
+    </div>
 </#list>
+</div>
 </body>
 </html>

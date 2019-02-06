@@ -26,8 +26,8 @@ public class FreeMarkerController {
     @GetMapping(value = "/bookList")
     public ModelAndView bookList(Map<String, Object> map,
                                  @RequestParam(value = "start", defaultValue = "1") Integer start,
-                                 @RequestParam(value = "end", defaultValue = "10") Integer end,
-                                 @RequestParam(value = "pageCount", defaultValue = "10") Integer pageCount) {
+                                 @RequestParam(value = "end", defaultValue = "30") Integer end,
+                                 @RequestParam(value = "pageCount", defaultValue = "30") Integer pageCount) {
         TsBookVo query = new TsBookVo();
         query.setStart(start);
         query.setEnd(end);
@@ -39,7 +39,7 @@ public class FreeMarkerController {
             PageHelper pageHelper = new PageHelper();
             pageHelper.setValue("第" + String.valueOf(i) + "页");
             pageHelper.setUrl("/chao/bookList");
-            pageHelper.setParam("?start=" + (i - 1) * pageCount + "&end=" + i * pageCount);
+            pageHelper.setParam("?start=" + ((i - 1) * pageCount+1) + "&end=" + i * pageCount);
             pageHelpers.add(pageHelper);
         }
         map.put("pageHelpers", pageHelpers);
@@ -49,8 +49,8 @@ public class FreeMarkerController {
     @GetMapping(value = "/pageList")
     public ModelAndView pageList(Map<String, Object> map, Integer bookId,
                                  @RequestParam(value = "start", defaultValue = "1") Integer start,
-                                 @RequestParam(value = "end", defaultValue = "10") Integer end,
-                                 @RequestParam(value = "pageCount", defaultValue = "10") Integer pageCount) {
+                                 @RequestParam(value = "end", defaultValue = "20") Integer end,
+                                 @RequestParam(value = "pageCount", defaultValue = "20") Integer pageCount) {
         TsPageVo query = new TsPageVo();
         query.setBookId(bookId);
         query.setStart(start);
@@ -58,6 +58,8 @@ public class FreeMarkerController {
         List<TsPageVo> pageList = tsPageService.queryBase(query);
         Integer sum = tsPageService.queryBaseCount(query);
         map.put("pageList", pageList);
+        TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(bookId);
+        map.put("tsBookVo", tsBookVo);
         List<PageHelper> pageHelpers = new ArrayList<>();
         for (int i = 1; i <= sum / pageCount+1; i++) {
             PageHelper pageHelper = new PageHelper();

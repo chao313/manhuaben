@@ -334,11 +334,12 @@ public class GenerateService {
         List<TsPageVo> list = tsPageService.queryBase(vo);
         for (TsPageVo pageVo : list) {
             if (null == pageVo.getLoaclImageUrl() && null != pageVo.getPageImage()) {
-                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/book_cover_jpg/book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg"));//打开输入流
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/IdeaWorkspace/manhuaben/manhuaben/src/main/resources/static/book_cover_jpg/book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg"));//打开输入流
                 imageOutput.write(pageVo.getPageImage(), 0, pageVo.getPageImage().length);//将byte写入硬盘
                 imageOutput.close();
                 TsPageVo source = new TsPageVo();
                 source.setLoaclImageUrl("book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg");
+                logger.info("path:{}", source.getLoaclImageUrl());
                 tsPageService.updateBase(source, pageVo);
             }
         }
@@ -355,32 +356,25 @@ public class GenerateService {
         tsPageVo.setStart(start);
         tsPageVo.setEnd(end);
         List<TsPageVo> tsPageVos = tsPageService.queryBase(tsPageVo);
-        List<TsPageVo> tsPageVos1 = Collections.synchronizedList(new LinkedList<>(tsPageVos));
+        List<TsPageVo> pageVos = Collections.synchronizedList(new LinkedList<>(tsPageVos));
         ThreadGroup tg = new ThreadGroup("线程组");
-        while (Thread.currentThread().getThreadGroup().activeCount() <= 800) {
-            Runnable runnable = new DownloadPageRun(tsPageVos1, tsPageService);
-            new Thread(tg, runnable, runnable.toString()).start();
+        int i = 0;
+        while (true) {
+            if (DownloadPageRun.i > pageVos.size()) {
+                tsPageVos = tsPageService.queryBase(tsPageVo);
+                pageVos = Collections.synchronizedList(new LinkedList<>(tsPageVos));
+                DownloadPageRun.i = 0;
+            }
+            if (Thread.currentThread().getThreadGroup().activeCount() <= 1000) {
+                logger.info("[线程组]:{}", Thread.currentThread().getThreadGroup().getName());
+                logger.info("[线程活跃数量]:{}", Thread.currentThread().getThreadGroup().activeCount());
+                logger.debug("TotalMemory", Runtime.getRuntime().totalMemory() / (1024 * 1024) + "M");
+                logger.debug("FreeMemory", Runtime.getRuntime().freeMemory() / (1024 * 1024) + "M");
+                logger.debug("MaxMemory", Runtime.getRuntime().maxMemory() / (1024 * 1024) + "M");
+                Runnable runnable = new DownloadPageRun(pageVos, tsPageService);
+                new Thread(tg, runnable, "线程:i:" + i++).start();
+            }
         }
-        return true;
     }
 
-    /**
-     * 下载page to loacl_image
-     *
-     * @return
-     */
-//    public boolean downloadPageImageToLocalImage(Integer start, Integer end) throws IOException {
-//        TsBookVo tsBookVo = new TsBookVo();
-//        tsBookVo.setStart(start);
-//        tsBookVo.setEnd(end);
-//        List<TsBookVo> tsBookVoList = tsBookService.queryBase(tsBookVo);
-//        for (TsBookVo bookVo : tsBookVoList) {
-//            if (null == bookVo.getLocalImageUrl()) {
-//                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/page_jpg/book_" + bookVo.getBookIndex() + "page_"+".jpg"));//打开输入流
-//                imageOutput.write(bookVo.getBookCovers(), 0, bookVo.getBookCovers().length);//将byte写入硬盘
-//                imageOutput.close();
-//            }
-//        }
-//        return true;
-//    }
 }
