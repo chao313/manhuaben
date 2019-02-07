@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name='referrer' content="never">
     <title>少女漫画-首页</title>
     <link href="/chao/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -48,7 +49,7 @@
 <div class="img">
     <a href="/chao/pageList?bookId=${vo.id?c}">
         <!--<img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">-->
-        <img src="/chao/book_cover_jpg/${vo.bookCoversUrl!'-'}">
+        <img src="${vo.bookCoversUrl!'-'}">
         <h5 class="img_des">${vo.bookName}</h5>
     </a>
 </div>
