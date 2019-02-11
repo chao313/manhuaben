@@ -48,7 +48,8 @@
 <#list tsBookVoList as vo>
 <div class="img">
     <a href="/chao/pageList?bookId=${vo.id?c}">
-        <!--<img src="/chao/book_cover_jpg/${vo.localImageUrl!'-'}">-->
+        <!--走本地太慢-->
+        <!--<img src="/chao/servlet/tmpDownload?url=${vo.bookCoversUrl!'-'}">-->
         <img src="${vo.bookCoversUrl!'-'}">
         <h5 class="img_des">${vo.bookName}</h5>
     </a>
@@ -63,5 +64,6 @@
     </div>
 </#list>
 </div>
+<img  style="CURSOR: pointer" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=2942200183&o=im.qq.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:2942200183:1 alt="有事点这里">
 </body>
 </html>

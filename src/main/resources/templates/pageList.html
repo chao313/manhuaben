@@ -37,7 +37,8 @@
 <div>
     <#list pageList as vo>
     <td>
-        <!--<img class="page_img" src="/chao/book_cover_jpg/${vo.loaclImageUrl!'-'}">-->
+        <!--走本地太慢-->
+        <!--<img class="page_img" src="/chao/servlet/tmpDownload?url=${vo.pageImageUrl!'-'}">-->
         <img class="page_img" src="${vo.pageImageUrl!'-'}">
     </td>
 </#list>
