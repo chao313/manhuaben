@@ -131,4 +131,18 @@ public class TsPageServiceImpl implements TsPageService {
         return this.queryBase(query);
     }
 
+    @Override
+    public List<TsPageVo> queryBasePage(Integer start, Integer end) {
+        TsPageVo query = new TsPageVo();
+        query.setStart(start);
+        query.setEnd(end);
+        return this.queryBase(query);
+    }
+
+    @Override
+    public List<TsPageVo> queryBaseIds(Integer start, Integer end) {
+        return dao.queryBaseIds(start,end);
+    }
+
+
 }

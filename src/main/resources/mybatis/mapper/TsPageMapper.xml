@@ -92,9 +92,9 @@
             <if test="loaclImageUrl != null">
                 AND `loacl_image_url` = #{loaclImageUrl}
             </if>
---             AND page_image is null
---                AND page_image is not null
---             AND loacl_image_url is null
+            -- AND page_image is null
+            -- AND page_image is not null
+            -- AND loacl_image_url is null
             <if test="start != null and end != null">
                 limit ${start-1}, ${end-start+1}
             </if>
@@ -273,5 +273,27 @@
             AND `id` = #{id}
         </where>
     </delete>
+    <select id="queryBaseIds" resultMap="resultMap"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TsPageVo">
+        SELECT
+        `id`,
+        `page_url`,
+        `page_image_url`,
+        `page_image`,
+        `page_index`,
+        `book_id`,
+        `loacl_image_url`
+        FROM `ts_page`
+        <where>
+            1 = 1
+            <if test="start != null">
+                AND `id` <![CDATA[ >= ]]> #{start}
+            </if>
+            <if test="end != null">
+                AND `id` <![CDATA[ <= ]]> #{end}
+            </if>
+            AND `page_image_url` IS NOT NULL
+        </where>
+    </select>
 
 </mapper>

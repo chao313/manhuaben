@@ -24,6 +24,15 @@ public class TsPageVo {
     private String loaclImageUrl;  // 本地的url
     private Integer start;
     private Integer end;
+    private String bookName;//临时使用
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
 
     public String getLoaclImageUrl() {
         return loaclImageUrl;

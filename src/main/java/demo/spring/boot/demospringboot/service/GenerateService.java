@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
@@ -68,10 +69,10 @@ public class GenerateService {
 
     public boolean generateBook() {
         List<TsWebPageVo> tsWebPageVos = tsWebPageService.queryBase(null);
-        List<TsBookVo> tsBookVoList = new ArrayList<>();
         int i = 1;
+        List<TsBookVo> tsBookVoList = null;
         for (TsWebPageVo tsWebPageVo : tsWebPageVos) {
-
+            tsBookVoList = new ArrayList<>();
             String htmlStr = IpadGet.getString(tsWebPageVo.getWebPageUrl());
             Document parse = Jsoup.parse(htmlStr);
             for (Element ulElement : parse.getElementsByClass("pList")) {
@@ -100,17 +101,66 @@ public class GenerateService {
                         }
                     }
                 }
+                tsBookService.insert(tsBookVoList);
             }
 
 
         }
-        return tsBookService.insert(tsBookVoList);
+        return true;
     }
 
+    /**
+     * 补全book的size，name，date
+     *
+     * @return
+     */
     public boolean makeUpBookSizeNameDate() {
         List<TsBookVo> tsBookVoList = tsBookService.queryBase(null);
         List<TsBookVo> filterTsBookVoList = tsBookVoList.stream().filter(tsBookVo -> {
-            return tsBookVo.getId() > 1673;
+            return tsBookVo.getId() >= 3019;
+        }).collect(Collectors.toList());
+        String host = tsParamService.queryByPrimaryKey(HOST).getValue();
+        for (TsBookVo tsBookVo : filterTsBookVoList) {
+            String url = host + tsBookVo.getBookUrl();
+            String htmlStr = IpadGet.getString(url);
+            Document parse = Jsoup.parse(htmlStr);
+            String text = parse.getElementsMatchingOwnText("共\\d{1,}页").text();
+            Integer bookSize = null;
+            try {
+                bookSize = Integer.valueOf(text.substring(text.indexOf("共") + 1, text.indexOf("页")));
+            } catch (Exception e) {
+                logger.error("[转换页面]:{}", e.toString(), e);
+            }
+            String bookName = parse.getElementById("content").getElementsByClass("primary-title").text();
+            String createTimeStr = parse.getElementById("content").getElementsByClass("date").text();
+            Timestamp createTime = null;
+            try {
+                Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(createTimeStr.substring(createTimeStr.length() - 16));
+                createTime = new Timestamp(date.getTime());
+            } catch (ParseException e) {
+                logger.error("[转换日期]:{}", e.toString(), e);
+            }
+            TsBookVo source = new TsBookVo();
+            source.setBookSize(bookSize);
+            source.setBookName(bookName);
+            source.setCreateTime(createTime);
+            tsBookVo.setBookSize(null);
+            tsBookVo.setBookName(null);
+            tsBookVo.setCreateTime(null);
+            tsBookService.updateBase(source, tsBookVo);
+        }
+        return true;
+    }
+
+    /**
+     * 补全book的size，name，date
+     *
+     * @return
+     */
+    public boolean makeUpBookSizeNameDateThread(Integer start, Integer end) {
+        List<TsBookVo> tsBookVoList = tsBookService.queryBase(null);
+        List<TsBookVo> filterTsBookVoList = tsBookVoList.stream().filter(tsBookVo -> {
+            return tsBookVo.getId() >= start && tsBookVo.getId() <= end;
         }).collect(Collectors.toList());
         String host = tsParamService.queryByPrimaryKey(HOST).getValue();
         for (TsBookVo tsBookVo : filterTsBookVoList) {
@@ -180,10 +230,10 @@ public class GenerateService {
         return true;
     }
 
+
     /**
      * 生成page
      * 根据book的url生成page的url
-     * book中有脏数据
      *
      * @return
      */
@@ -224,10 +274,41 @@ public class GenerateService {
      * 生成page
      * 根据book的url生成page的url
      * book中有脏数据
+     * Thread
+     *
+     * @return
+     */
+    public boolean makeUpPageImageThread(Integer start, Integer end) {
+        List<TsPageVo> tsPageVoList = tsPageService.queryBaseIds(start, end);
+        for (TsPageVo tsPageVo : tsPageVoList) {
+            String src = "";
+            if (tsPageVoList.size() > 0) {
+                String htmlStr = IpadGet.getString(tsPageVo.getPageUrl());
+                Document parse = Jsoup.parse(htmlStr);
+
+                for (Element imgElement : parse.getElementsByTag("img")) {
+                    src = imgElement.attr("src").trim();
+                }
+            }
+            TsPageVo source = new TsPageVo();
+            if (src.endsWith(".jpg")) {
+                source.setPageImageUrl(src);
+                tsPageService.updateBase(source, tsPageVo);
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 生成page
+     * 根据book的url生成page的url
+     * book中有脏数据
      * 1966 之前的数据-需要单独处理
      * 1435-1443 1412-1419 1332-1409
      * <p>
      * 只在第一次抓取数据的时间使用
+     * 由于目标网页改版，目前不需要
      *
      * @return
      */
@@ -290,12 +371,35 @@ public class GenerateService {
         List<TsBookVo> tsBookVoList = tsBookService.queryBase(tsBookVo);
         for (TsBookVo bookVo : tsBookVoList) {
             if (null == bookVo.getLocalImageUrl()) {
-                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/Desktop/book_cover_jpg/book_" + bookVo.getBookIndex() + ".jpg"));//打开输入流
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/chao/Desktop/book_cover_jpg/book_" + bookVo.getBookIndex() + ".jpg"));//打开输入流
                 imageOutput.write(bookVo.getBookCovers(), 0, bookVo.getBookCovers().length);//将byte写入硬盘
                 imageOutput.close();
                 TsBookVo source = new TsBookVo();
                 source.setLocalImageUrl("book_" + bookVo.getBookIndex() + ".jpg");
                 tsBookService.updateBase(source, bookVo);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 下载book的封面 to loacl_image Thread
+     *
+     * @return
+     */
+    public boolean downloadBookImageToLocalImageThread(Integer start, Integer end) throws IOException {
+        List<TsBookVo> tsBookVoList = tsBookService.queryBase(null);
+        List<TsBookVo> filterTsBookVoList = tsBookVoList.stream().filter(tsBookVo -> {
+            return tsBookVo.getId() >= start && tsBookVo.getId() <= end && !StringUtils.isEmpty(tsBookVo.getBookCoversUrl());
+        }).collect(Collectors.toList());
+        for (TsBookVo bookVo : filterTsBookVoList) {
+            String path = "/Users/chao/Desktop/book_cover_jpg/book_" + bookVo.getBookIndex() + ".jpg";
+            if (null == bookVo.getLocalImageUrl()) {
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File(path));//打开输入流
+                byte[] bytes = IpadGet.getBytes(bookVo.getBookCoversUrl());//http下载
+                imageOutput.write(bytes, 0, bytes.length);//将byte写入硬盘
+                imageOutput.close();
+                logger.info("path:{}", path);
             }
         }
         return true;
@@ -334,7 +438,7 @@ public class GenerateService {
         List<TsPageVo> list = tsPageService.queryBase(vo);
         for (TsPageVo pageVo : list) {
             if (null == pageVo.getLoaclImageUrl() && null != pageVo.getPageImage()) {
-                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/sgx/IdeaWorkspace/manhuaben/manhuaben/src/main/resources/static/book_cover_jpg/book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg"));//打开输入流
+                FileImageOutputStream imageOutput = new FileImageOutputStream(new File("/Users/chao/IdeaWorkspace/manhuaben/manhuaben/src/main/resources/static/book_cover_jpg/book_" + pageVo.getBookId() + "_page_" + pageVo.getPageIndex() + ".jpg"));//打开输入流
                 imageOutput.write(pageVo.getPageImage(), 0, pageVo.getPageImage().length);//将byte写入硬盘
                 imageOutput.close();
                 TsPageVo source = new TsPageVo();
@@ -345,6 +449,59 @@ public class GenerateService {
         }
         return true;
     }
+
+    /**
+     * 下载book的封面 to loacl_image -> 输出
+     *
+     * @return
+     */
+    public boolean downloadPageImageToLocalImageThread(Integer start, Integer end) throws IOException {
+        List<TsPageVo> list = tsPageService.queryBaseIds(start, end);
+        Map<Integer, List<TsPageVo>> map = new HashMap<>();
+        list.forEach(tsPageVo -> {
+            if (map.get(tsPageVo.getBookId()) != null) {
+                map.get(tsPageVo.getBookId()).add(tsPageVo);
+            } else {
+                List<TsPageVo> list1 = new ArrayList<>();
+                list1.add(tsPageVo);
+                map.put(tsPageVo.getBookId(), list1);
+            }
+        });
+        map.forEach((key, tsPageVoList) -> {
+            TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(key);
+            if (null != tsBookVo) {
+                tsPageVoList.forEach(tsPageVo -> {
+                    tsPageVo.setBookName(tsBookVo.getBookName());
+                });
+            }
+        });
+
+        for (TsPageVo pageVo : list) {
+            try {
+                if (null != pageVo.getPageImageUrl()) {
+//                TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(pageVo.getBookId());
+                    String bookPath = "/Users/chao/Desktop/page_jpg/" + pageVo.getBookName() + "/";
+                    if (new File(bookPath).exists() == false) {
+                        new File(bookPath).mkdirs();
+                    }
+                    File pagePathFile = new File(bookPath + pageVo.getPageIndex() + ".jpg");
+                    if (!pagePathFile.exists() && !StringUtils.isEmpty(pageVo.getPageImageUrl())) {
+                        FileImageOutputStream imageOutput = new FileImageOutputStream(pagePathFile);//打开输入流
+                        byte[] bytes = IpadGet.getBytes(pageVo.getPageImageUrl());//http下载
+                        imageOutput.write(bytes, 0, bytes.length);//将byte写入硬盘
+                        imageOutput.close();
+                        logger.info("path:{}", bookPath + pageVo.getPageIndex() + ".jpg");
+                    }
+                }
+            } catch (Exception e) {
+                logger.info("error:{}", e.toString(), e);
+            }
+
+
+        }
+        return true;
+    }
+
 
     /**
      * 下载page

@@ -71,4 +71,13 @@ public interface TsPageDao {
      */
     int deleteByPrimaryKey(Integer id);
 
+    /**
+     * 根据ids来查询
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    List<TsPageVo> queryBaseIds(@Param(value = "start") Integer start, @Param(value = "end") Integer end);
+
 }

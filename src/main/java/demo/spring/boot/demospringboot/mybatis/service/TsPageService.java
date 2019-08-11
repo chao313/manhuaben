@@ -88,5 +88,21 @@ public interface TsPageService {
      */
     List<TsPageVo> queryBaseByBookId(Integer bookId);
 
+    /**
+     * 根据id分页查询
+     *
+     * @param bookId
+     * @return
+     */
+    List<TsPageVo> queryBasePage(Integer start, Integer end);
+
+
+    /**
+     * 根据id分页查询
+     *
+     * @param bookId
+     * @return
+     */
+    List<TsPageVo> queryBaseIds(Integer start, Integer end);
 
 }
