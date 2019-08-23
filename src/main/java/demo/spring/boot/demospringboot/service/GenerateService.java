@@ -4,6 +4,8 @@ import demo.spring.boot.demospringboot.mybatis.service.TsBookService;
 import demo.spring.boot.demospringboot.mybatis.service.TsPageService;
 import demo.spring.boot.demospringboot.mybatis.service.TsParamService;
 import demo.spring.boot.demospringboot.mybatis.service.TsWebPageService;
+import demo.spring.boot.demospringboot.mybatis.service.eventbus.EventBus;
+import demo.spring.boot.demospringboot.mybatis.service.eventbus.EventVo;
 import demo.spring.boot.demospringboot.mybatis.vo.TsBookVo;
 import demo.spring.boot.demospringboot.mybatis.vo.TsPageVo;
 import demo.spring.boot.demospringboot.mybatis.vo.TsWebPageVo;
@@ -50,6 +52,9 @@ public class GenerateService {
 
     @Autowired
     private TsPageService tsPageService;
+
+    @Autowired
+    private EventBus eventBus;
 
     public boolean generateWebPage() {
         String baseUrl = tsParamService.queryByPrimaryKey(BASE_URL).getValue();
@@ -405,6 +410,7 @@ public class GenerateService {
         return true;
     }
 
+
     /**
      * 下载page
      *
@@ -476,7 +482,13 @@ public class GenerateService {
             }
         });
 
-        for (TsPageVo pageVo : list) {
+
+        for (int i = 0, listSize = list.size(); i < listSize; i++) {
+            TsPageVo pageVo = list.get(i);
+            logger.info("pageVo.id :{} ,count:{} sum:{}", pageVo.getId(), i, list.size()
+
+
+            );
             try {
                 if (null != pageVo.getPageImageUrl()) {
 //                TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(pageVo.getBookId());
@@ -491,6 +503,57 @@ public class GenerateService {
                         imageOutput.write(bytes, 0, bytes.length);//将byte写入硬盘
                         imageOutput.close();
                         logger.info("path:{}", bookPath + pageVo.getPageIndex() + ".jpg");
+                    }
+                }
+            } catch (Exception e) {
+                logger.info("error:{}", e.toString(), e);
+            }
+
+
+        }
+        return true;
+    }
+
+    /**
+     * 下载book的封面 to loacl_image -> 输出
+     *
+     * @return
+     */
+    public boolean downloadPageImageToLocalImageEvent(Integer start, Integer end) throws IOException {
+        List<TsPageVo> list = tsPageService.queryBaseIds(start, end);
+        Map<Integer, List<TsPageVo>> map = new HashMap<>();
+        list.forEach(tsPageVo -> {
+            if (map.get(tsPageVo.getBookId()) != null) {
+                map.get(tsPageVo.getBookId()).add(tsPageVo);
+            } else {
+                List<TsPageVo> list1 = new ArrayList<>();
+                list1.add(tsPageVo);
+                map.put(tsPageVo.getBookId(), list1);
+            }
+        });
+        map.forEach((key, tsPageVoList) -> {
+            TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(key);
+            if (null != tsBookVo) {
+                tsPageVoList.forEach(tsPageVo -> {
+                    tsPageVo.setBookName(tsBookVo.getBookName());
+                });
+            }
+        });
+
+        for (TsPageVo pageVo : list) {
+            try {
+                if (null != pageVo.getPageImageUrl()) {
+//                TsBookVo tsBookVo = tsBookService.queryByPrimaryKey(pageVo.getBookId());
+                    String bookPath = "/Users/chao/Desktop/page_jpg/" + pageVo.getBookName() + "/";
+                    if (new File(bookPath).exists() == false) {
+                        new File(bookPath).mkdirs();
+                    }
+                    File pagePathFile = new File(bookPath + pageVo.getPageIndex() + ".jpg");
+                    if (!pagePathFile.exists() && !StringUtils.isEmpty(pageVo.getPageImageUrl())) {
+                        EventVo eventVo = new EventVo();
+                        eventVo.setPageImageUrl(pageVo.getPageImageUrl());
+                        eventVo.setPagePathFile(pagePathFile);
+                        eventBus.post(eventVo);
                     }
                 }
             } catch (Exception e) {

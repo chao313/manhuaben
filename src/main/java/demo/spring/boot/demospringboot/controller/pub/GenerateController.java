@@ -320,6 +320,7 @@ public class GenerateController {
             response.setCode(Code.System.OK);
             response.setMsg(Code.System.SERVER_SUCCESS_MSG);
             boolean result = generateService.downloadPageImageToLocalImageThread(start, end);
+//            boolean result = generateService.downloadPageImageToLocalImageEvent(start, end);
             response.setContent(result);
         } catch (Exception e) {
             response.setCode(Code.System.FAIL);
